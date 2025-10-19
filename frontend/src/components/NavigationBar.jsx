@@ -1,5 +1,5 @@
 import React from "react";
-import "./NavigationBar.css";
+import "../style/NavigationBar.css";
 import Logo from "./Logo";
 import MenuButtonWhite from "./MenuButtonWhite.jsx";
 
