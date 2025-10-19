@@ -1,0 +1,69 @@
+/* Lisame lehele ka lühikese CSS Reset-i */
+/* https://stackoverflow.com/questions/11578819/css-reset-what-exactly-does-it-do */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Albert Sans', sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    line-height: 1.5;
+    font-family: sans-serif;
+}
+
+img,
+picture,
+video,
+canvas {
+    max-width: 100%;
+    display: block;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Siit maalt algavad meie lehe stiilid */
+body {
+    background-color: white;
+}
+
+.navbar {
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 4px;
+}
+
+#home {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+}
+
+.home_side {
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    flex-Direction: column;
+    justify-Content: center;
+    align-Items: center;
+    gap: 80px;
+}
