@@ -11,7 +11,7 @@ function Home() {
                     <Logo />
                 </div>
                 <div className="home_side">
-                    <img src="../../public/QuestionMark.png" alt="Küsimärk" style={{ height:'25%', objectFit: 'cover', filter: 'invert(100)' }} />
+                    <img src="/QuestionMark.png" alt="Küsimärk" style={{ height:'25%', objectFit: 'cover', filter: 'invert(100)' }} />
                     <ButtonHomepage fill="#6F0013" text="Päevatoode" textColor='white' />
                 </div>
             </div>
@@ -20,7 +20,7 @@ function Home() {
                     <Menu />
                 </div>
                 <div className="home_side">
-                    <div style={{ width: '100%', height: '25%', display: 'flex', justifyContent: 'centet', alignItems: 'center'}}>
+                    <div style={{ width: '100%', height: '25%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <img src="../../public/karp.png" alt="Saagikast" style={{ height: '150%', objectFit: 'cover', overflow: 'hidden' }} />
                     </div>
                     <ButtonHomepage text="Saagikastid"/>
