@@ -1,9 +1,10 @@
-import Home from "./pages/Home"
+import Home from "./pages/Home";
+import NavigationBar from "./components/NavigationBar.jsx";
 
 function App() {
   return (
     <div>
-        <Home />
+      <Home />
     </div>
   );
 }
