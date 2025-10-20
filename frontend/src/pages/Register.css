@@ -1,0 +1,90 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 80vh;
+    padding-top: 50px;
+}
+
+.form-box {
+    /* Tume punane blokk */
+    background-color: #8B0000;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    width: 500px;
+    max-width: 90%;
+}
+
+/* Teksti ja pealkirja stiilid */
+.form-box h2 {
+    color: white;
+    margin-bottom: 5px;
+    font-size: 24px;
+}
+
+.secondary-text {
+    color: #DDD;
+    font-size: 0.9em;
+    margin-bottom: 30px;
+}
+
+.secondary-text a {
+    color: white;
+    font-weight: bold;
+    margin-left: 5px;
+    text-decoration: underline;
+}
+
+.input-label {
+    color: white;
+    font-weight: normal;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/* Sisendvärljad ja nupud*/
+
+.input-group {
+    /* (Eesnimi/Perekonnanimi) */
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.input-field-wrapper {
+    flex: 1;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.full-width-input {
+    margin-bottom: 10px;
+}
+
+.submit-button {
+    /* Must nupp */
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.submit-button:hover {
+    background-color: #333;
+}
