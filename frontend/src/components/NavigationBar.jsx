@@ -2,9 +2,9 @@ import React from "react";
 import "./NavigationBar.css";
 import Logo from "./Logo";
 import MenuButtonWhite from "./MenuButtonWhite.jsx";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const NavigationBar = () => {
+const NavigationBar = ({ navbarOpen, setNavbarOpen }) => {
   return (
     <nav className="navbar">
       <Link to="/" className="logo">
@@ -14,7 +14,10 @@ const NavigationBar = () => {
         <span className="navbar-text">SaagiSalong</span>
       </div>
       <div className="navbar-right">
-        <button className="menubutton">
+        <button
+          className="menubutton"
+          onClick={() => setNavbarOpen(!navbarOpen)}
+        >
           <MenuButtonWhite />
         </button>
       </div>
