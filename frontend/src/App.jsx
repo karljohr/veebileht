@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Register from "./pages/Register.jsx";
 import Menu from "./components/Menu.jsx";
+import Login from "./pages/Login.jsx";
 
 function App() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home setNavbarOpen={setNavbarOpen} />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login/>}/>
       </Routes>
     </>
   );
