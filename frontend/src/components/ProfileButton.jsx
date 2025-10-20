@@ -1,20 +1,20 @@
-function ProfileButton({width, height, text, color = 'black', fontSize='375%'}) {
+function ProfileButton({width, height, text, color = 'black', fontSize='1vw'}) {
     return (
         <div
             className="boxes button"
             style={{
-                border:"5px solid rgba(0, 0, 0, 0.25)",
-                boxShadow:"20px 20px 10px lightgray",
-                borderRadius:"50px",
+                border:"2px solid rgba(0, 0, 0, 0.25)",
+                boxShadow:"10px 10px 10px lightgray",
+                borderRadius:"15px",
                 width:width,
                 height:height,
                 display:"flex",
                 alignItems:"center",
                 justifyContent:"center",
-                margin:"0"
+                margin:"0",
             }}
         >
-            <p style={{color:color, fontSize:fontSize}}>{text}</p>
+            <p style={{color:color, fontSize:fontSize, margin:'5vh'}}>{text}</p>
         </div>
     );
 }

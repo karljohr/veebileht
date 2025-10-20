@@ -20,21 +20,21 @@ function Profile() {
                         <p className="text">E-mail: {email}</p>
                     </div>
                     <div id="changebox">
-                        <ProfileButton text="Muuda" width="10%" height="50%"/>
+                        <ProfileButton text="Muuda" width="15%" height="100%"/>
                     </div>
                 </div>
                 <div id="small_box_container">
                     <div className="boxes small_boxes" >
                         <p className="text"><b>SALASÕNA</b></p>
-                        <ProfileButton text="Muuda salasõna" width="30%" height="100%"/>
+                        <ProfileButton text="Muuda salasõna" width="40%" height="50%"/>
                     </div>
                     <div className="boxes small_boxes" >
                         <p className="text"><b>ARVELDUSINFO</b></p>
-                        <ProfileButton text="Lisa arveldusinfo" width="30%" height="100%"/>
+                        <ProfileButton text="Lisa arveldusinfo" width="40%" height="50%"/>
                     </div>
                 </div>
                 <div id="logout_box_container">
-                    <ProfileButton text="Logi välja" width="10%" height="30%" color="#6F0013" fontSize="450%"/>
+                    <ProfileButton text="Logi välja" width="15%" height="100%" color="#6F0013" fontSize="1.5vw"/>
                 </div>
             </div>
         </div>
