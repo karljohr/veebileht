@@ -2,7 +2,7 @@ import Logo from "../components/Logo.jsx";
 import MenuButton from "../components/MenuButton.jsx";
 import ButtonHomepage from "../components/ButtonHomepage.jsx";
 
-function Home() {
+function Home({ setNavbarOpen }) {
   return (
     <div id="home">
       <div style={{ backgroundColor: "black", flexGrow: 1 }}>
@@ -12,6 +12,7 @@ function Home() {
             display: "flex",
             justifyContent: "left",
             alignItems: "center",
+            margin: "2vh",
           }}
         >
           <Logo />
@@ -34,7 +35,21 @@ function Home() {
             alignItems: "center",
           }}
         >
-          <MenuButton />
+          <button
+            onClick={() => setNavbarOpen(true)}
+            style={{
+              background: "none",
+              color: "inherit",
+              border: "none",
+              padding: "0",
+              font: "inherit",
+              cursor: "pointer",
+              outline: "inherit",
+              margin: "2vh",
+            }}
+          >
+            <MenuButton />
+          </button>
         </div>
         <div className="home_side">
           <div

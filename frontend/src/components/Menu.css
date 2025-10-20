@@ -1,0 +1,64 @@
+.menu {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  z-index: 10;
+  height: 100vh;
+  padding-top: 4rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  color: #ffffff;
+  justify-content: center;
+  font-size: 6vh;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+}
+
+.menu.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu.closed {
+  transition: opacity 0.15s ease;
+}
+
+.menu-li {
+  display: flex;
+  width: 100%;
+  line-height: normal;
+  align-items: center;
+  list-style: none;
+  outline: none;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  letter-spacing: normal;
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+  justify-content: center;
+}
+
+.menu-button {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 5vh;
+  color: #ffffff;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.menu-button:hover {
+  color: #8b0000;
+}
+
+.title {
+    padding: 4vh;
+}
