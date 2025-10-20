@@ -19,7 +19,7 @@ function Register() {
           <p className="secondary-text">
             Kui sul juba on kasutaja, siis
             <Link to="/login">
-              logi sisse
+              Logi sisse
             </Link>
           </p>
 
