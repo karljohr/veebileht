@@ -2,13 +2,14 @@ import React from "react";
 import "./NavigationBar.css";
 import Logo from "./Logo";
 import MenuButtonWhite from "./MenuButtonWhite.jsx";
+import {Link} from "react-router-dom";
 
 const NavigationBar = () => {
   return (
     <nav className="navbar">
-      <a href="/" className="logo">
+      <Link to="/" className="logo">
         <Logo />
-      </a>
+      </Link>
       <div className="navbar-center">
         <span className="navbar-text">SaagiSalong</span>
       </div>
