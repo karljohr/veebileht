@@ -32,7 +32,7 @@ const Menu = ({navbarOpen, setNavbarOpen}) => {
                         </Link>
                     </li>
                     <li className="menu-li">
-                        <Link to="/" className="menu-button" onClick={() => {
+                        <Link to="/profile" className="menu-button" onClick={() => {
                             setNavbarOpen(false);
                             }}>Profiil
                         </Link>

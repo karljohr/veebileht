@@ -1,5 +1,6 @@
 import ProfileButton from "../components/ProfileButton.jsx";
-import NavigationBar from "../components/NavigationBar.jsx";
+import "../style/profile.css"
+
 
 const FirstName = "Eesnimi";
 const LastName = "Perekonnanimi";
@@ -7,12 +8,10 @@ const email = "meiliaadress@meil.ee";
 
 function Profile() {
     return (
-        <div>
-            <NavigationBar/>
             <div id="content">
                 <div className='boxes' id='profile'>
                     <div id="profile_box_title">
-                        <p className="text"><b>KASUTAJA ANDMED</b></p>
+                        <h1 className="text">KASUTAJA ANDMED</h1>
                         <hr id="line"/>
                     </div>
                     <div id="textbox">
@@ -20,24 +19,23 @@ function Profile() {
                         <p className="text">E-mail: {email}</p>
                     </div>
                     <div id="changebox">
-                        <ProfileButton text="Muuda" width="15%" height="100%"/>
+                        <ProfileButton text="Muuda" width="100px" height="40px"/>
                     </div>
                 </div>
                 <div id="small_box_container">
                     <div className="boxes small_boxes" >
-                        <p className="text"><b>SALASÕNA</b></p>
-                        <ProfileButton text="Muuda salasõna" width="40%" height="50%"/>
+                        <h1 className="text">SALASÕNA</h1>
+                        <ProfileButton text="Muuda salasõna" width="120px" height="40px"/>
                     </div>
                     <div className="boxes small_boxes" >
-                        <p className="text"><b>ARVELDUSINFO</b></p>
-                        <ProfileButton text="Lisa arveldusinfo" width="40%" height="50%"/>
+                        <h1 className="text">ARVELDUSINFO</h1>
+                        <ProfileButton text="Lisa arveldusinfo" width="120px" height="40px"/>
                     </div>
                 </div>
                 <div id="logout_box_container">
-                    <ProfileButton text="Logi välja" width="15%" height="100%" color="#6F0013" fontSize="1.5vw"/>
+                    <ProfileButton text="Logi välja" width="150px" height="50px" color="#6F0013" fontSize="125%"/>
                 </div>
             </div>
-        </div>
     );
 }
 

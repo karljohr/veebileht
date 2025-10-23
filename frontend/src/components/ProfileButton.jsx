@@ -1,4 +1,4 @@
-function ProfileButton({width, height, text, color = 'black', fontSize='1vw'}) {
+function ProfileButton({width, height, text, color = 'black', fontSize='75%'}) {
     return (
         <div
             className="boxes button"
@@ -14,7 +14,7 @@ function ProfileButton({width, height, text, color = 'black', fontSize='1vw'}) {
                 margin:"0",
             }}
         >
-            <p style={{color:color, fontSize:fontSize, margin:'5vh'}}>{text}</p>
+            <p style={{color:color, fontSize:fontSize}}>{text}</p>
         </div>
     );
 }
