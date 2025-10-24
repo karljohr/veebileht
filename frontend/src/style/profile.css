@@ -9,7 +9,7 @@
 .small_boxes {
     @media (orientation: portrait) {
         width:100%;
-        height:48%;
+        height:40%;
     }
     @media (orientation: landscape) {
         width:48%;
@@ -25,10 +25,12 @@
 
 #profile {
     width:90%;
-    height:50%;
+    height:45vh;
     display:flex;
     flex-direction:column;
-    padding: 1% 45px;
+    padding-top: 1%;
+    padding-left: 45px;
+
 }
 
 #small_box_container {
@@ -37,15 +39,19 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    @media (orientation: portrait) {height: 20%;}
+    @media (orientation: portrait) {height: 25%;}
     @media (orientation: landscape) {height: 15%;}
     width:90%;
 }
 
-.text {
+p {
+    font-size:100%;
     color:black;
-    @media (orientation: portrait) {font-size:1.75vh;}
-    @media (orientation: landscape) {font-size:1.75vw;}
+}
+
+h1 {
+    font-size:150%;
+    color:black;
 }
 
 #content {
@@ -53,9 +59,8 @@
     display:flex;
     align-items:center;
     flex-direction:column;
-    @media (orientation: portrait) {gap:2vh;}
+    @media (orientation: portrait) {gap:4vh;}
     @media (orientation: landscape) {gap:6vh;}
-
 }
 
 #line {width:30%}
@@ -72,8 +77,9 @@
 #profile_box_title {
     display:flex;
     flex-direction:column;
-    justify-content:space-between;
-    height:20%;
+    justify-content:center;
+    gap:20%;
+    height:15%;
     box-sizing: border-box;
 }
 
@@ -84,9 +90,12 @@
     align-items:center;
 }
 
+
 #changebox {
     display:flex;
     justify-content: right;
-    align-items:center;
-    height:15%;
+    height:40%;
+    align-items: flex-end;
+    padding: 20px;
+    box-sizing: border-box;
 }
