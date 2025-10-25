@@ -1,12 +1,12 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import './Register.css';
+import '../style/Register.css';
 
 function Login() {
 
     const handleDummyEvent = (event) => {
         event.preventDefault()
-        console.log("Sisse logimise andmeid ei salvestatud!")
+        console.log("Sisse logimise andmeid ei salvestatud!");
     };
 
     return (
@@ -46,7 +46,9 @@ function Login() {
                         </div>
 
                         <button type="submit" className="submit-button">
-                            Logi sisse
+                            {/*Lisasin Link, et saaks lehtede vahel navigeerida
+                            kuni lisame päriselt autentimise süsteemi.*/}
+                            <Link to="/login/confirmation">Logi sisse</Link>
                         </button>
                     </form>
                 </div>

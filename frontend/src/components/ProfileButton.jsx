@@ -1,10 +1,10 @@
-function ProfileButton({width, height, text, color = 'black', fontSize='75%'}) {
+function ProfileButton({width, height, text, color = 'black', fontSize='75%', shadow = "10px 10px 10px lightgray", bcolor = "white"}) {
     return (
-        <div
+        <button
             className="boxes button"
             style={{
                 border:"2px solid rgba(0, 0, 0, 0.25)",
-                boxShadow:"10px 10px 10px lightgray",
+                boxShadow:shadow,
                 borderRadius:"15px",
                 width:width,
                 height:height,
@@ -12,10 +12,12 @@ function ProfileButton({width, height, text, color = 'black', fontSize='75%'}) {
                 alignItems:"center",
                 justifyContent:"center",
                 margin:"0",
+                backgroundColor: bcolor,
+                cursor: "pointer",
             }}
         >
             <p style={{color:color, fontSize:fontSize}}>{text}</p>
-        </div>
+        </button>
     );
 }
 
