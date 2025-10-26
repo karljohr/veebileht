@@ -6,6 +6,8 @@ import Register from "./pages/Register.jsx";
 import Menu from "./components/Menu.jsx";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
+import LoginConfirmation from "./pages/LoginConfirmation.jsx"
+import RegisterConfirmation from "./pages/RegisterConfirmation.jsx";
 
 function App() {
   const location = useLocation();
@@ -32,6 +34,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/profile" element={<Profile/>}/>
+        <Route path="/login/confirmation" element={<LoginConfirmation/>}/>
+          <Route path="/register/confirmation" element={<RegisterConfirmation/>}/>
+
       </Routes>
     </>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Register.css';
+import '../style/Register.css';
 
 function Register() {
 
@@ -67,7 +67,9 @@ function Register() {
             </div>
 
             <button type="submit" className="submit-button">
-              Loo kasutaja
+                {/*Lisasin Link, et saaks lehtede vahel navigeerida
+                   kuni lisame päriselt autentimise süsteemi.*/}
+                <Link to="/login/confirmation">Loo kasutaja</Link>
             </button>
           </form>
         </div>
