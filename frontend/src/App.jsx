@@ -8,6 +8,7 @@ import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import LoginConfirmation from "./pages/LoginConfirmation.jsx"
 import RegisterConfirmation from "./pages/RegisterConfirmation.jsx";
+import DailyProduct from "./pages/DailyProduct.jsx";
 
 function App() {
   const location = useLocation();
@@ -36,7 +37,7 @@ function App() {
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/login/confirmation" element={<LoginConfirmation/>}/>
           <Route path="/register/confirmation" element={<RegisterConfirmation/>}/>
-
+        <Route path="/daily-product" element={<DailyProduct/>}/>
       </Routes>
     </>
   );
