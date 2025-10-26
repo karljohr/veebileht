@@ -1,6 +1,8 @@
 import Logo from "../components/Logo.jsx";
 import MenuButton from "../components/MenuButton.jsx";
 import ButtonHomepage from "../components/ButtonHomepage.jsx";
+import {Link} from "react-router-dom";
+import DailyProduct from "./DailyProduct.jsx"
 
 function Home({ setNavbarOpen }) {
   return (
@@ -23,7 +25,9 @@ function Home({ setNavbarOpen }) {
             alt="Küsimärk"
             style={{ height: "25%", objectFit: "cover", filter: "invert(100)" }}
           />
-          <ButtonHomepage fill="#6F0013" text="Päevatoode" textColor="white" />
+          <Link to="/daily-product">
+              <ButtonHomepage fill="#6F0013" text="Päevatoode" textColor="white" />
+          </Link>
         </div>
       </div>
       <div style={{ backgroundColor: "white", flexGrow: 1 }}>
