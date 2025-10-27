@@ -53,7 +53,7 @@ function DailyProduct() {
                         <span className="max-value">100€</span>
                     </div>
 
-                    <Link to="/method-of-payment">
+                    <Link to="/payment">
                         <button
                             className="buy-button"
                         >
