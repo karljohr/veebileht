@@ -136,7 +136,11 @@
     cursor: pointer;
     background: linear-gradient(45deg, #FF70A6 30%, #FF9770 90%);
     box-shadow: 0 5px 15px rgba(255, 112, 166, 0.4);
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
 
+.buy-button:hover {
+    background: linear-gradient(45deg, #FF8DA9 30%, #FFB086 90%);
 }
 
 @media (max-width: 500px) {
