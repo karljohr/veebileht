@@ -6,6 +6,7 @@ import Register from "./pages/Register.jsx";
 import Menu from "./components/Menu.jsx";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
+import Catalogue from "./pages/Catalogue.jsx";
 
 function App() {
   const location = useLocation();
@@ -30,8 +31,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home setNavbarOpen={setNavbarOpen} />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/profile" element={<Profile/>}/>
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/catalogue" element={<Catalogue />} />
       </Routes>
     </>
   );
