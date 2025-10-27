@@ -1,0 +1,106 @@
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    background-color: #f0f0f0;
+}
+
+.payment-frame {
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
+}
+
+.payment-frame h1 {
+    font-size: 1.8em;
+    margin-bottom: 8px;
+    color: black;
+}
+
+.payment-method-select label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.select-dropdown {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+}
+
+.card-info-title {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.input-field {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.input-group > div {
+    flex: 1;
+}
+
+.input-group > div:first-child {
+    margin-right: 10px;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #333333;
+}
+
+.full-width {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.half-width {
+    flex: 1;
+}
+
+.paypal-info {
+    text-align: center;
+    padding: 20px 0;
+    color: #555555;
+    font-style: italic;
+    min-height: 120px;
+}
+
+.pay-button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.pay-button:hover {
+    background-color: #333333;
+}
