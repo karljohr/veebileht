@@ -1,101 +1,113 @@
 .boxes {
-    border:2px solid rgba(0, 0, 0, 0.25);
-    background-color:white;
-    box-shadow:10px 10px 5px lightgray;
-    border-radius:20px;
-    margin-top:3vh;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  background-color: white;
+  box-shadow: 10px 10px 5px lightgray;
+  border-radius: 20px;
+  margin-top: 3vh;
 }
 
 .small_boxes {
-    @media (orientation: portrait) {
-        width:100%;
-        height:40%;
-    }
-    @media (orientation: landscape) {
-        width:48%;
-        height:100%;
-    }
-    margin: 0;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding-right:30px;
-    padding-left:30px;
+  @media (orientation: portrait) {
+    width: 100%;
+    height: 40%;
+  }
+  @media (orientation: landscape) {
+    width: 48%;
+    height: 100%;
+  }
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 30px;
+  padding-left: 30px;
 }
 
 #profile {
-    width:90%;
-    height:45vh;
-    display:flex;
-    flex-direction:column;
-    padding-top: 1%;
-    padding-left: 45px;
-
+  width: 90%;
+  height: 45vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1%;
+  padding-left: 45px;
 }
 
 #small_box_container {
-    @media (orientation: portrait) {flex-direction:column;}
-    @media (orientation: landscape) {flex-direction: row;}
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    @media (orientation: portrait) {height: 25%;}
-    @media (orientation: landscape) {height: 15%;}
-    width:90%;
+  @media (orientation: portrait) {
+    flex-direction: column;
+  }
+  @media (orientation: landscape) {
+    flex-direction: row;
+  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @media (orientation: portrait) {
+    height: 25%;
+  }
+  @media (orientation: landscape) {
+    height: 15%;
+  }
+  width: 90%;
 }
 
 p {
-    font-size:100%;
-    color:black;
+  font-size: 100%;
+  color: black;
 }
 
 h1 {
-    font-size:150%;
-    color:black;
+  font-size: 150%;
+  color: black;
 }
 
 #content {
-    height:90vh;
-    display:flex;
-    align-items:center;
-    flex-direction:column;
-    @media (orientation: portrait) {gap:4vh;}
-    @media (orientation: landscape) {gap:6vh;}
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  @media (orientation: portrait) {
+    gap: 4vh;
+  }
+  @media (orientation: landscape) {
+    gap: 6vh;
+  }
 }
 
-#line {width:30%}
+#line {
+  width: 30%;
+}
 
 #textbox {
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-    height:65%;
-    padding: 2% 0;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 65%;
+  padding: 2% 0;
+  box-sizing: border-box;
 }
 
 #profile_box_title {
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    gap:20%;
-    height:15%;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20%;
+  height: 15%;
+  box-sizing: border-box;
 }
 
 #logout_box_container {
-    height:7%;
-    width:90%;
-    display:flex;
-    align-items:center;
+  height: 7%;
+  width: 90%;
+  display: flex;
+  align-items: center;
 }
 
-
 #changebox {
-    display:flex;
-    justify-content: right;
-    height:40%;
-    align-items: flex-end;
-    padding: 20px;
-    box-sizing: border-box;
+  display: flex;
+  justify-content: right;
+  height: 40%;
+  align-items: flex-end;
+  padding: 20px;
+  box-sizing: border-box;
 }
