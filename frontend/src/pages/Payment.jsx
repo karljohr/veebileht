@@ -56,7 +56,7 @@ function Payment() {
                 {paymentMethod === "paypal" && <PayPalInfo/>}
 
                 <button className="pay-button" onClick={handlePayment}>
-                    <Link to="/purchase-confirmation">
+                    <Link to="/payment/confirmation">
                         Maksa kohe
                     </Link>
                 </button>
