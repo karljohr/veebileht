@@ -30,27 +30,32 @@ Projektis on hetkel olemas:
 - Menüü
 - Konto loomise alamleht
 - Sisselogimise alamleht
+- Sisselogimise kinnituse alamleht 
+- Konto loomise kinnituse alamleht
 - Profiili alamleht
+- Päevatoote alamleht
+- Tootekataloogi alamleht
+- Makseleht
+
 
 Projektis on hetkel funktsionaalne:
 
-- Navigeerimine avalehe ja konto loomise avalehe vahel
-- Menüü avamine igal alamlehel
+- Igal alamleheküljel logole vajutades viiakse kasutaja avalehele.
+- Menüü avamine igal alamlehel.
+- Navigeerimine kõikide olemasolevate alamlehtede, välja arvatud makselehe, vahel.
+  - Avalehe nupud "Päevatoode" ja "Saagikastid" viivad vastavatele alamlehekülgedele.
+  - Menüü nupud "Avaleht", "Profiil", "Logi Sisse" viivad vastavatele alamlehekülgedele.
+  - Sisselogimise alamlehel "Loo kasutaja" tekstiviide viib konto loomise alamlehele.
 
 ## Projekti tulevik
 
 Projekti on tulevikus veel lisandumas:
 
-- Tootekataloogi alamleht
-- "Päevatoote" alamleht
 - Ostukorvi alamleht
-- Eduka sisse logimise alamleht
-- Eduka konto loomise alamleht
 - Arveldusinfo lisamise alamleht
 - Salasõna muutmise alamleht
 - Kasutaja andmete muutmise alamleht
 - Omatud saagikastide alamleht
-- Makseleht
 - Ostu kinnituse alamleht
 - Navigeerimine iga lehekülje vahel
 - Saagikastide avamise funktsionaalsus
@@ -60,6 +65,8 @@ Projekti on tulevikus veel lisandumas:
 - React (versioon 19.2.0)
 - Node.js (versioon 22.20.0)
 - Vite (versioon 7.1.10)
+- PostgreSQL (versioon 17.6)
+- express (versioon 4.21.0)
 
 ## Projekti lokaalselt käivitamine
 
