@@ -43,10 +43,11 @@ Projektis on hetkel funktsionaalne:
 
 - Igal alamleheküljel logole vajutades viiakse kasutaja avalehele.
 - Menüü avamine igal alamlehel.
-- Navigeerimine kõikide olemasolevate alamlehtede, välja arvatud makselehe, vahel.
+- Navigeerimine kõikide olemasolevate alamlehtede vahel.
   - Avalehe nupud "Päevatoode" ja "Saagikastid" viivad vastavatele alamlehekülgedele.
   - Menüü nupud "Avaleht", "Profiil", "Logi Sisse" viivad vastavatele alamlehekülgedele.
   - Sisselogimise alamlehel "Loo kasutaja" tekstiviide viib konto loomise alamlehele.
+  - "Logi Sisse", "Loo Kasutaja" ja "Maksa kohe" nupud viivad vastavale kinnituse alamlehele.
 
 ## Projekti tulevik
 
