@@ -15,7 +15,7 @@ function Profile() {
         <div id="profile_box_content">
             {/*Suure kasti vasak pool*/}
             <div className="profile_box_content_box">
-                <div id="k">
+                <div className="k">
                 {/*Profiilipilt*/}
                     <div id="pfp">
                         <img src="/gambler.png" alt="profile_picture" id="pfp_img" />
@@ -39,8 +39,10 @@ function Profile() {
             </div>
             {/*Suure kasti parem pool*/}
             <div className="profile_box_content_box">
-                <div id="opened_box">
+                <div className="k">
                     <p>WIP</p>
+                    {/*<p>Omatud kaste:</p>*/}
+                    {/*<p>Avatud kaste:</p>*/}
                 </div>
             </div>
         </div>
