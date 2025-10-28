@@ -1,6 +1,6 @@
 import React from "react";
 import "../style/Menu.css";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Menu = ({ navbarOpen, setNavbarOpen }) => {
   return (
@@ -11,7 +11,7 @@ const Menu = ({ navbarOpen, setNavbarOpen }) => {
       <nav className="menu-nav" onClick={(e) => e.stopPropagation()}>
         <ul className="menu-ul">
           <div className="title">
-            <u>Saagisalong</u>
+            <p>Saagisalong</p>
           </div>
           <li className="menu-li">
             <Link

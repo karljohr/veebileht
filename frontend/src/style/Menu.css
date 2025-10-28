@@ -28,6 +28,19 @@
   transition: opacity 0.15s ease;
 }
 
+.title p {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 6vh;
+  text-decoration-line: underline;
+  color: #ffffff;
+  justify-content: center;
+  opacity: 1;
+}
+
 .menu-li {
   display: flex;
   width: 100%;
@@ -60,5 +73,5 @@
 }
 
 .title {
-    padding: 4vh;
+  padding: 4vh;
 }
