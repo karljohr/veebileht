@@ -1,7 +1,7 @@
 import Logo from "../components/Logo.jsx";
 import MenuButton from "../components/MenuButton.jsx";
 import ButtonHomepage from "../components/ButtonHomepage.jsx";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Home({ setNavbarOpen }) {
   return (
@@ -13,12 +13,12 @@ function Home({ setNavbarOpen }) {
             display: "flex",
             justifyContent: "left",
             alignItems: "center",
-            paddingLeft: "10px"
+            paddingLeft: "10px",
           }}
         >
-            <div style={{height:'60px'}}>
-                <Logo/>
-            </div>
+          <div style={{ height: "60px", marginTop: "20px" }}>
+            <Logo />
+          </div>
         </div>
         <div className="home_side">
           <img
@@ -27,7 +27,11 @@ function Home({ setNavbarOpen }) {
             style={{ height: "25%", objectFit: "cover", filter: "invert(100)" }}
           />
           <Link to="/daily-product">
-              <ButtonHomepage fill="#6F0013" text="Päevatoode" textColor="white" />
+            <ButtonHomepage
+              fill="#6F0013"
+              text="Päevatoode"
+              textColor="white"
+            />
           </Link>
         </div>
       </div>
@@ -69,12 +73,12 @@ function Home({ setNavbarOpen }) {
             <img
               src="../../public/karp.png"
               alt="Saagikast"
-              style={{ height: "150%", objectFit: "cover", overflow: "hidden" }}
+              style={{ height: "180%", objectFit: "cover", overflow: "hidden" }}
             />
           </div>
-            <Link to="/">
-                <ButtonHomepage text="Saagikastid" />
-            </Link>
+          <Link to="/catalogue">
+            <ButtonHomepage text="Saagikastid" textColor="#6F0013" />
+          </Link>
         </div>
       </div>
     </div>
