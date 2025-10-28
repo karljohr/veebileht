@@ -11,21 +11,40 @@ function Profile() {
       <div className="boxes" id="profile">
         <div id="profile_box_title">
           <h1>KASUTAJA ANDMED</h1>
-          <hr id="line" />
         </div>
-        <div id="textbox">
-          <p>
-            Nimi: {FirstName} {LastName}
-          </p>
-          <p>E-mail: {email}</p>
-        </div>
-        <div id="changebox">
-          <ProfileButton
-              text="Muuda"
-              width="100px"
-              height="40px"
-              fontSize="75%"
-          />
+        <div id="profile_box_content">
+            {/*Suure kasti vasak pool*/}
+            <div className="profile_box_content_box">
+                <div className="k">
+                {/*Profiilipilt*/}
+                    <div id="pfp">
+                        <img src="/gambler.png" alt="profile_picture" id="pfp_img" />
+                        <div id="pfp_gray_box"/>
+                    </div>
+                    <div id="textbox">
+                      <p>
+                          <b>{FirstName} {LastName}</b>
+                      </p>
+                      <p>{email}</p>
+                    <div id="changebox">
+                      <ProfileButton
+                          text="Muuda"
+                          width="75px"
+                          height="25px"
+                          fontSize="75%"
+                      />
+                    </div>
+                    </div>
+                </div>
+            </div>
+            {/*Suure kasti parem pool*/}
+            <div className="profile_box_content_box">
+                <div className="k">
+                    <p>WIP</p>
+                    {/*<p>Omatud kaste:</p>*/}
+                    {/*<p>Avatud kaste:</p>*/}
+                </div>
+            </div>
         </div>
       </div>
       <div id="small_box_container">

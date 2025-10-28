@@ -50,7 +50,7 @@ function ConfirmationPage({text = "Text", bgColor = "#6F0013", textColor = "whit
                     height="50px"
                     text="Mine avalehele"
                     shadow="0 0 0 0"
-                    bcolor="black"
+                    bcolor="rgb(0, 0 ,0)"
                     color="white"
                 />
             </Link>
