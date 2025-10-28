@@ -36,6 +36,7 @@ Projektis on hetkel olemas:
 - Päevatoote alamleht
 - Tootekataloogi alamleht
 - Makseleht
+- Ostu kinnituse alamleht
 
 
 Projektis on hetkel funktsionaalne:
@@ -56,7 +57,6 @@ Projekti on tulevikus veel lisandumas:
 - Salasõna muutmise alamleht
 - Kasutaja andmete muutmise alamleht
 - Omatud saagikastide alamleht
-- Ostu kinnituse alamleht
 - Navigeerimine iga lehekülje vahel
 - Saagikastide avamise funktsionaalsus
 - Kasutaja loomise ning andmete muutmise funktsionaalsused
