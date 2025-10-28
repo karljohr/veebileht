@@ -11,6 +11,7 @@ import LoginConfirmation from "./pages/LoginConfirmation.jsx"
 import RegisterConfirmation from "./pages/RegisterConfirmation.jsx";
 import DailyProduct from "./pages/DailyProduct.jsx";
 import Payment from "./pages/Payment.jsx";
+import PaymentConfirmation from "./pages/PaymentConfirmation.jsx";
 
 function App() {
   const location = useLocation();
@@ -42,6 +43,7 @@ function App() {
           <Route path="/register/confirmation" element={<RegisterConfirmation/>}/>
         <Route path="/daily-product" element={<DailyProduct/>}/>
         <Route path="/payment" element={<Payment/>}/>
+        <Route path="/payment/confirmation" element={<PaymentConfirmation/>}/>
       </Routes>
     </>
   );
