@@ -1,7 +1,7 @@
 .boxes {
   border: 2px solid rgba(0, 0, 0, 0.25);
   background-color: white;
-  box-shadow: 10px 10px 5px lightgray;
+  box-shadow: 5px 5px 5px lightgray;
   border-radius: 20px;
   margin-top: 3vh;
 }
@@ -91,7 +91,7 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 20%;
+  gap: 20px;
   height: 15%;
   box-sizing: border-box;
 }
