@@ -1,11 +1,27 @@
 import ProfileButton from "../components/ProfileButton.jsx";
 import "../style/profile.css";
+import {Link} from "react-router-dom";
+import {useEffect} from "react";
 
 const FirstName = "Eesnimi";
 const LastName = "Perekonnanimi";
 const email = "meiliaadress@meil.ee";
 
 function Profile() {
+        const token = localStorage.getItem("token");
+
+
+    useEffect(() => {
+        if (!token) return;
+
+        fetch(JSON.stringify(window.location.href), {
+            headers: {Authorization: `Bearer ${token}`}
+        })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.error(err));
+    }, [token]);
+
   return (
     <div id="content">
       <div className="boxes" id="profile">
@@ -68,13 +84,16 @@ function Profile() {
         </div>
       </div>
       <div id="logout_box_container">
-        <ProfileButton
-          text="Logi välja"
-          width="150px"
-          height="50px"
-          color="#6F0013"
-          fontSize="125%"
-        />
+        <Link to="/">
+            <ProfileButton
+              text="Logi välja"
+              width="150px"
+              height="50px"
+              color="#6F0013"
+              fontSize="125%"
+              onClickOptions={() => localStorage.removeItem("token")}
+            />
+        </Link>
       </div>
     </div>
   );

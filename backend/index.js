@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import pkg from "pg";
+import jwt from "jsonwebtoken";
 
 // Lae sisse .env failist muutujad
 dotenv.config();
@@ -53,6 +54,46 @@ app.post("/users", async (req, res) => {
         res.status(500).send("Server error");
     }
 });
+
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const info = await pool.query("SELECT * FROM users WHERE email=$1", [email]);
+        if (info.rows.length === 0) {
+            console.log("No user with this email")
+        } else {
+            const dbPassword = info.rows[0].password;
+            if (dbPassword === password) {
+                console.log("Passwords match");
+                const token = jwt.sign({ userId: info.rows[0].userid }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN});
+                return res.json({token});
+            } else {
+                console.log("Incorrect password");
+            }
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
+});
+
+
+const auth = (req, res, next) => {
+    const header = req.headers.authorization;
+    if (!header) {return res.status(401).send("No token");}
+    const token = header.split(" ")[1];
+    if (!token) {return res.status(401).send("Malformed token");}
+    try {
+        req.user = jwt.verify(token, process.env.JWT_SECRET);
+        next()
+    } catch {
+        res.status(401).send("Invalid token");
+    }
+}
+
+app.get("/protected", auth, (req, res) => {
+    res.json({userId: req.user.id});
+})
 
 // Käivitame serveri
 app.listen(PORT, () => {
