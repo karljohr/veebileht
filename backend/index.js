@@ -42,7 +42,7 @@ app.post("/users", async (req, res) => {
     try {
         // SQL päring, mis lisab 'users' tabelisse uue kasutaja
         const result = await pool.query(
-            "INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2) RETURNING *",
+            "INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *",
             [first_name, last_name, email, password]
         );
         // Tagastame kliendile päringu tulemuse
