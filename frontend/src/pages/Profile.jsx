@@ -42,14 +42,16 @@ function Profile() {
                           <b>{FirstName} {LastName}</b>
                       </p>
                       <p>{email}</p>
-                    <div id="changebox">
-                      <ProfileButton
-                          text="Muuda"
-                          width="75px"
-                          height="25px"
-                          fontSize="75%"
-                      />
-                    </div>
+                    <Link to="/userdata">
+                        <div id="changebox">
+                          <ProfileButton
+                              text="Muuda"
+                              width="75px"
+                              height="25px"
+                              fontSize="75%"
+                          />
+                        </div>
+                    </Link>
                     </div>
                 </div>
             </div>
