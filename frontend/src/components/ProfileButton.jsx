@@ -7,7 +7,8 @@ function ProfileButton({
                            color = 'black',
                            fontSize='100%',
                            shadow = "5px 5px 10px lightgray",
-                           bcolor = "rgb(255, 255, 255)"})
+                           bcolor = "rgb(255, 255, 255)",
+                           onClickOptions})
 {
     const [hover, setHover] = useState(false);
     var hbcolor
@@ -19,6 +20,7 @@ function ProfileButton({
             className="boxes button"
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
+            onClick={onClickOptions}
             style={{
                 border:"2px solid rgba(0, 0, 0, 0.25)",
                 boxShadow:shadow,

@@ -1,12 +1,29 @@
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import '../style/Register.css';
 
-function Login() {
 
-    const handleDummyEvent = (event) => {
+function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const logIn = async (event) => {
         event.preventDefault()
-        console.log("Sisse logimise andmeid ei salvestatud!");
+        const response = await fetch("http://localhost:5000/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({email, password}),
+        });
+        const data = await response.json();
+        console.log(data);
+
+        if (response.ok) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "/login/confirmation";
+        } else {
+            alert(data.message || "Login failed");
+        }
+
     };
 
     return (
@@ -22,12 +39,14 @@ function Login() {
                         </Link>
                     </p>
 
-                    <form onSubmit={handleDummyEvent}>
+                    <form onSubmit={logIn}>
 
                         <div className="full-width-input">
                             <p className="input-label">Email</p>
                             <input
                                 type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
                                 className="input-field"
                                 placeholder="Sisesta email"
@@ -39,17 +58,15 @@ function Login() {
                             <p className="input-label">Parool</p>
                             <input
                                 type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 required
                                 className="input-field"
                                 placeholder="Sisesta parool"
                             />
                         </div>
 
-                        <button type="submit" className="submit-button">
-                            {/*Lisasin Link, et saaks lehtede vahel navigeerida
-                            kuni lisame päriselt autentimise süsteemi.*/}
-                            <Link to="/login/confirmation">Logi sisse</Link>
-                        </button>
+                        <button type="submit" className="submit-button">Logi sisse</button>
                     </form>
                 </div>
             </div>

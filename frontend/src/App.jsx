@@ -12,6 +12,7 @@ import RegisterConfirmation from "./pages/RegisterConfirmation.jsx";
 import DailyProduct from "./pages/DailyProduct.jsx";
 import Payment from "./pages/Payment.jsx";
 import PaymentConfirmation from "./pages/PaymentConfirmation.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 function App() {
   const location = useLocation();
@@ -37,8 +38,22 @@ function App() {
         <Route path="/" element={<Home setNavbarOpen={setNavbarOpen} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/catalogue" element={<Catalogue />} />
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/profile" element={<Profile/>}/>
+        <Route
+            path="/login"
+            element={
+            <ProtectedRoute url="/login/confirmation" reverse={true}>
+                <Login/>
+            </ProtectedRoute>
+            }
+        />
+          <Route
+              path="/profile"
+              element={
+              <ProtectedRoute url="/login">
+                  <Profile/>
+              </ProtectedRoute>
+              }
+          />
         <Route path="/login/confirmation" element={<LoginConfirmation/>}/>
           <Route path="/register/confirmation" element={<RegisterConfirmation/>}/>
         <Route path="/daily-product" element={<DailyProduct/>}/>
