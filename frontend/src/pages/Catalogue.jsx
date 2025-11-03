@@ -1,5 +1,6 @@
 import "../style/Catalogue.css";
 import { useState } from "react";
+import Lootbox from "../components/Lootbox.jsx";
 
 function Overlay({ text, isOpen, onClose }) {
   return (
@@ -35,65 +36,104 @@ function Catalogue() {
         onClose={() => toggle(null)}
       />
       <ul className="lootbox-list">
-        <li className="lootbox">
-          <div className="lootbox-image">
-            <img className="rare" src="/karp.png" alt="Saagikast" />
-          </div>
-          <div className="lootbox-content">
-            <div className="lootbox-name">
-              <p>Haruldane Saagikast</p>
-            </div>
-            <div className="lootbox-price">
-              <p>Hind: 5 - 10 €</p>
-            </div>
-            <button className="prizes">Võimalikud auhinnad ?</button>
-            <button className="add-to-cart">Lisa ostukorvi</button>
-          </div>
+        <li>
+          <Lootbox
+            image="/karp.png"
+            nimi="Haruldane saagikast"
+            hind="5 - 10 €"
+            prizes={[
+              "Käsitööšokolaad",
+              "Kõrgekvaliteediline teevalik",
+              "Metallist võtmehoidja",
+              "E-raamat",
+              "TalTechi kleepsupakk",
+              "Indie-mängu kood",
+              "USB-C juhtmekaabel",
+              "Väike märkmik",
+              "Steam Wallet krediit",
+              "Autoaksessuaar",
+              "Mikrofiiberlapp",
+              "Lauakaunistus",
+              "Sinise valguse lambid",
+            ]}
+            reverse={false}
+            imgClass="rare"
+          />
         </li>
-        <li className="lootbox">
-          <div className="lootbox-content">
-            <div className="lootbox-name">
-              <p>Müstiline Saagikast</p>
-            </div>
-            <div className="lootbox-price">
-              <p>Hind: 10 - 25 €</p>
-            </div>
-            <button className="prizes">Võimalikud auhinnad ?</button>
-            <button className="add-to-cart">Lisa ostukorvi</button>
-          </div>
-          <div className="lootbox-image">
-            <img className="mystic" src="/karp.png" alt="Saagikast" />
-          </div>
+        <li>
+          <Lootbox
+            image="/karp.png"
+            nimi="Müstiline saagikast"
+            hind="10 - 25 €"
+            prizes={[
+              "Lõhnaküünal",
+              "Nahkne kaarditasku",
+              "Roostevabast terasest pudel",
+              "TalTech T-särk",
+              "Juhtmevaba laadija",
+              "Trühvliõli komplekt",
+              "Disainitud kruus",
+              "RGB valgusriba",
+              "Spotify kuutellimus",
+              "Laualamp",
+              "E-kursuse sooduskood",
+              "Kõrgekvaliteediline hiirematt",
+              "Kvaliteetne matkalamp",
+              "Toiduõlipihusti",
+            ]}
+            reverse={true}
+            imgClass="mystic"
+          />
         </li>
-        <li className="lootbox">
-          <div className="lootbox-image">
-            <img className="epic" src="/karp.png" alt="Saagikast" />
-          </div>
-          <div className="lootbox-content">
-            <div className="lootbox-name">
-              <p>Eepiline Saagikast</p>
-            </div>
-            <div className="lootbox-price">
-              <p>Hind: 25 - 50 €</p>
-            </div>
-            <button className="prizes">Võimalikud auhinnad ?</button>
-            <button className="add-to-cart">Lisa ostukorvi</button>
-          </div>
+        <li>
+          <Lootbox
+            image="/karp.png"
+            nimi="Eepiline saagikast"
+            hind="25 - 50 €"
+            prizes={[
+              "Kaasaskantav bluetooth kõlar",
+              "Nutika kodu juhtpult",
+              "Viskiklaaside komplekt",
+              "TalTech dressipluus",
+              "Kõrgekvaliteediline kööginuga",
+              "Töölaua organiseerija",
+              "Eksklusiivne Discordi serveri osalus",
+              "Kvaliteetsed päikeseprillid",
+              "Nutikas LED-lamp",
+              "Soundboard-klaviatuur",
+              "Stiilne seljakott",
+              "Trükitud kunstiposter",
+              "Virtuaalse töötoa osalus",
+              "Juhtmevaba arvutihiir",
+            ]}
+            reverse={false}
+            imgClass="epic"
+          />
         </li>
-        <li className="lootbox">
-          <div className="lootbox-content">
-            <div className="lootbox-name">
-              <p>Legendaarne Saagikast</p>
-            </div>
-            <div className="lootbox-price">
-              <p>Hind: 50 - 100 €</p>
-            </div>
-            <button className="prizes">Võimalikud auhinnad ?</button>
-            <button className="add-to-cart">Lisa ostukorvi</button>
-          </div>
-          <div className="lootbox-image">
-            <img className="legendary" src="/karp.png" alt="Saagikast" />
-          </div>
+        <li>
+          <Lootbox
+            image="/karp.png"
+            nimi="Legendaarne saagikast"
+            hind="50 - 100 €"
+            prizes={[
+              "Nutikell",
+              "NFT sertifikaat",
+              "Disainitud aksessuaar",
+              "Juhtmevabad kõrvaklapid",
+              "Kohviveski komplekt",
+              "Disney+ aastatellimus",
+              "Miniprojektor",
+              "Virtuaalne üks-ühele mentorisessioon",
+              "Autohoolduskomplekt",
+              "Retro mängukonsool",
+              "Kõrgtehnoloogiline föön",
+              "Sülearvutikott",
+              "Kutse eksklusiivsele üritusele",
+              "Juhtmevaba klaviatuur",
+            ]}
+            reverse={true}
+            imgClass="legendary"
+          />
         </li>
       </ul>
       <div className="bottom">
