@@ -75,16 +75,18 @@ function Profile() {
                   height="40px"
                   fontSize="75%"
               />
-        </Link>
+          </Link>
         </div>
         <div className="boxes small_boxes">
           <h1>ARVELDUSINFO</h1>
-          <ProfileButton
+          <Link to="/billing-info">
+            <ProfileButton
               text="Lisa arveldusinfo"
               width="120px"
               height="40px"
               fontSize="75%"
-          />
+            />
+          </Link>
         </div>
       </div>
       <div id="logout_box_container">

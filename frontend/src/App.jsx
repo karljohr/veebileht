@@ -15,6 +15,7 @@ import PaymentConfirmation from "./pages/PaymentConfirmation.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import UserData from "./pages/UserData.jsx";
 import PasswordChange from "./pages/PasswordChange.jsx";
+import BillingInfo from "./pages/BillingInfo.jsx";
 
 function App() {
   const location = useLocation();
@@ -63,6 +64,7 @@ function App() {
         <Route path="/payment/confirmation" element={<PaymentConfirmation/>}/>
         <Route path="/userdata" element={<UserData/>}/>
         <Route path="/password-change" element={<PasswordChange/>}/>
+        <Route path="/billing-info" element={<BillingInfo/>}/>
       </Routes>
     </>
   );
