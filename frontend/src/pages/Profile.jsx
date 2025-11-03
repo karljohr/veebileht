@@ -66,12 +66,14 @@ function Profile() {
       <div id="small_box_container">
         <div className="boxes small_boxes">
           <h1>SALASÕNA</h1>
-          <ProfileButton
-              text="Muuda salasõna"
-              width="120px"
-              height="40px"
-              fontSize="75%"
-          />
+          <Link to="/password-change">
+              <ProfileButton
+                  text="Muuda salasõna"
+                  width="120px"
+                  height="40px"
+                  fontSize="75%"
+              />
+        </Link>
         </div>
         <div className="boxes small_boxes">
           <h1>ARVELDUSINFO</h1>

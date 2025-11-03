@@ -13,6 +13,7 @@ import DailyProduct from "./pages/DailyProduct.jsx";
 import Payment from "./pages/Payment.jsx";
 import PaymentConfirmation from "./pages/PaymentConfirmation.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import PasswordChange from "./pages/PasswordChange.jsx";
 
 function App() {
   const location = useLocation();
@@ -59,6 +60,7 @@ function App() {
         <Route path="/daily-product" element={<DailyProduct/>}/>
         <Route path="/payment" element={<Payment/>}/>
         <Route path="/payment/confirmation" element={<PaymentConfirmation/>}/>
+        <Route path="/password-change" element={<PasswordChange/>}/>
       </Routes>
     </>
   );
