@@ -1,5 +1,5 @@
 import React from "react";
-import "../style/ProfileSettings.css"
+import "../style/UserData.css"
 import ProfileButton from "../components/ProfileButton.jsx";
 
 function UserData() {
