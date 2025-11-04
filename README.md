@@ -37,6 +37,7 @@ Projektis on hetkel olemas:
 - Tootekataloogi alamleht
 - Makseleht
 - Ostu kinnituse alamleht
+- Algeline sisselogimise backend funktsionaalsus
 
 
 Projektis on hetkel funktsionaalne:
@@ -48,6 +49,8 @@ Projektis on hetkel funktsionaalne:
   - Menüü nupud "Avaleht", "Profiil", "Logi Sisse" viivad vastavatele alamlehekülgedele.
   - Sisselogimise alamlehel "Loo kasutaja" tekstiviide viib konto loomise alamlehele.
   - "Logi Sisse", "Loo Kasutaja" ja "Maksa kohe" nupud viivad vastavale kinnituse alamlehele.
+- Päevatoote alamlehe nuppude frontend funktsionaalsus
+- Tootekataloogi alamlehe nuppude frontend funktsionaalsus
 
 ## Projekti tulevik
 
@@ -60,7 +63,7 @@ Projekti on tulevikus veel lisandumas:
 - Omatud saagikastide alamleht
 - Navigeerimine iga lehekülje vahel
 - Saagikastide avamise funktsionaalsus
-- Kasutaja loomise ning andmete muutmise funktsionaalsused
+- Kasutaja loomise ning andmete muutmise täiustatud funktsionaalsus
 
 ## Kasutatud tehnoloogiad ja raamistikud
 - React (versioon 19.2.0)
