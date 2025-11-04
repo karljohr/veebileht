@@ -38,6 +38,9 @@ Projektis on hetkel olemas:
 - Makseleht
 - Ostu kinnituse alamleht
 - Algeline sisselogimise backend funktsionaalsus
+- Arveldusinfo lisamise alamleht
+- Salasõna muutmise alamleht
+- Kasutaja andmete muutmise alamleht
 
 
 Projektis on hetkel funktsionaalne:
@@ -57,9 +60,6 @@ Projektis on hetkel funktsionaalne:
 Projekti on tulevikus veel lisandumas:
 
 - Ostukorvi alamleht
-- Arveldusinfo lisamise alamleht
-- Salasõna muutmise alamleht
-- Kasutaja andmete muutmise alamleht
 - Omatud saagikastide alamleht
 - Navigeerimine iga lehekülje vahel
 - Saagikastide avamise funktsionaalsus
