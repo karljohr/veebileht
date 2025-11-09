@@ -88,3 +88,8 @@
 .submit-button:hover {
     background-color: #333;
 }
+
+.secondary-text p:hover {
+    color: white;
+    text-decoration: underline;
+}
