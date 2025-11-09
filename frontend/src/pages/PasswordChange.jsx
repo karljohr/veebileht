@@ -40,6 +40,14 @@ function PasswordChange() {
                             fontSize="75%"
                         />
                     </div>
+
+                    <div className="footer-button-container">
+                        <Link to="/profile">
+                            <button className="back-button">
+                                &larr; Tagasi
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

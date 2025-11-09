@@ -1,6 +1,7 @@
 import React from "react";
 import "../style/UserData.css"
 import ProfileButton from "../components/ProfileButton.jsx";
+import {Link} from "react-router-dom";
 
 function UserData() {
     return (
@@ -53,6 +54,13 @@ function UserData() {
                         />
                     </div>
 
+                    <div className="footer-button-container">
+                        <Link to="/profile">
+                            <button className="back-button">
+                                &larr; Tagasi
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
