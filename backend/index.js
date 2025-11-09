@@ -107,10 +107,35 @@ const auth = (req, res, next) => {
 app.get("/protected", auth, async (req, res) => {
   res.set("Cache-Control", "no-store")
   const userId = req.user.userId;
-  const data = await pool.query("SELECT first_name, last_name, email FROM users WHERE userid = $1", [userId]);
+  const data = await pool.query("SELECT first_name, last_name, email FROM users WHERE userid=$1", [userId]);
 
   if (data.rows.length === 0) return res.status(404).json({ error: "No user found" });
   res.json(data.rows[0]);
+});
+
+app.get("/api/user", auth, async (req, res) => {
+    res.set("Cache-Control", "no-store")
+    const userId = req.user.userId;
+    res.json(userId);
+});
+
+app.post("/changeData", async (req, res) => {
+    try {
+        const { firstName, lastName, email, userId } = req.body;
+        const dbData = await pool.query("SELECT first_name, last_name, email FROM users WHERE userid=$1", [userId]);
+
+        const user = dbData.rows[0];
+
+        const firstNameF = firstName === '' ? user.first_name : firstName;
+        const lastNameF = lastName === '' ? user.last_name : lastName;
+        const emailF = email === '' ? user.email : email;
+
+        const result = await pool.query("UPDATE users SET first_name=$1, last_name=$2, email=$3 WHERE userid=$4", [firstNameF, lastNameF, emailF, userId]);
+        res.status(201).json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
 });
 
 // Käivitame serveri
