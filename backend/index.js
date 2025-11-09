@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import express from "express";
 import pkg from "pg";
 import jwt from "jsonwebtoken";
+import hash from "./hash.js"
 
 // Lae sisse .env failist muutujad
 dotenv.config();
@@ -41,11 +42,12 @@ app.post("/users", async (req, res) => {
   // Võtame päringu body'st välja first_name, last_name, email, password väärtused
   // (siin eeldame, et backendiga ühendatud frontend saadab meile /users endpointi korral first_name, last_name, email, password)
   const { first_name, last_name, email, password } = req.body;
+  const passwordHash = await hash.hashPassword(password);
   try {
     // SQL päring, mis lisab 'users' tabelisse uue kasutaja
     const result = await pool.query(
       "INSERT INTO users (first_name, last_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *",
-      [first_name, last_name, email, password],
+      [first_name, last_name, email, passwordHash],
     );
     // Tagastame kliendile päringu tulemuse
     res.status(201).json(result.rows[0]);
@@ -66,7 +68,8 @@ app.post("/login", async (req, res) => {
       console.log("No user with this email");
     } else {
       const dbPassword = info.rows[0].password;
-      if (dbPassword === password) {
+      const passwordMatch = await hash.comparePassword(password, dbPassword);
+      if (passwordMatch) {
         console.log("Passwords match");
         const token = jwt.sign(
           { userId: info.rows[0].userid },
