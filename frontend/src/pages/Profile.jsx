@@ -1,25 +1,34 @@
 import ProfileButton from "../components/ProfileButton.jsx";
 import "../style/profile.css";
 import {Link} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
-const FirstName = "Eesnimi";
-const LastName = "Perekonnanimi";
-const email = "meiliaadress@meil.ee";
 
 function Profile() {
-        const token = localStorage.getItem("token");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const token = localStorage.getItem("token");
 
 
     useEffect(() => {
         if (!token) return;
 
-        fetch(JSON.stringify(window.location.href), {
-            headers: {Authorization: `Bearer ${token}`}
+        fetch(`http://localhost:5000/protected`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+                "Cache-Control": "no-store"
+            }
         })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => {
+            setFirstName(data.first_name);
+            setLastName(data.last_name);
+            setEmail(data.email);
+        })
         .catch(err => console.error(err));
+
     }, [token]);
 
   return (
@@ -38,10 +47,12 @@ function Profile() {
                         <div id="pfp_gray_box"/>
                     </div>
                     <div id="textbox">
-                      <p>
-                          <b>{FirstName} {LastName}</b>
-                      </p>
-                      <p>{email}</p>
+                        <div id="textbox_text">
+                          <p>
+                              <b>{firstName} {lastName}</b>
+                          </p>
+                          <p>{email}</p>
+                        </div>
                     <Link to="/userdata">
                         <div id="changebox">
                           <ProfileButton

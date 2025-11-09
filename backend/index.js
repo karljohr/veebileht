@@ -101,8 +101,13 @@ const auth = (req, res, next) => {
   }
 };
 
-app.get("/protected", auth, (req, res) => {
-  res.json({ userId: req.user.id });
+app.get("/protected", auth, async (req, res) => {
+  res.set("Cache-Control", "no-store")
+  const userId = req.user.userId;
+  const data = await pool.query("SELECT first_name, last_name, email FROM users WHERE userid = $1", [userId]);
+
+  if (data.rows.length === 0) return res.status(404).json({ error: "No user found" });
+  res.json(data.rows[0]);
 });
 
 // Käivitame serveri
