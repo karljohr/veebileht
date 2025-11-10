@@ -5,6 +5,7 @@ import express from "express";
 import pkg from "pg";
 import jwt from "jsonwebtoken";
 import hash from "./hash.js"
+import { v4 as uuidv4 } from "uuid";
 
 // Lae sisse .env failist muutujad
 dotenv.config();
@@ -135,6 +136,96 @@ app.post("/changeData", async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send("Server error");
+    }
+});
+
+app.post('/api/forgot-password', async (req, res) => {
+    const { email } = req.body;
+    const TOKEN_EXPIRY_MINUTES = 60; // Token kehtib 60 minutit
+
+    if (!email) {
+        return res.status(400).json({ message: "E-posti aadress on nõutav." });
+    }
+
+    try {
+        const userResult = await pool.query('SELECT userid, email FROM users WHERE email = $1', [email]);
+        const user = userResult.rows[0];
+
+        if (!user) {
+            // Turvalisus: Tagastab alati OK, isegi kui kasutajat ei leia (hoiab ära kasutajanimede lekkimise)
+            console.log(`FORGOT PASSWORD: Kasutajat ${email} ei leitud, aga tagastatakse OK.`);
+            // Simuleeritud token arenduseks
+            return res.status(200).json({
+                message: "Kui sellise e-posti aadressiga konto eksisteerib, saadame lingi.",
+                token: "simulated-token-" + Math.random().toString(36).substring(2, 10)
+            });
+        }
+
+        const resetToken = uuidv4();
+        const expiresAt = new Date(Date.now() + TOKEN_EXPIRY_MINUTES * 60 * 1000);
+
+        // Salvesta token ja aegumiskuupäev andmebaasi
+        await pool.query(
+            'UPDATE users SET reset_password_token = $1, reset_password_expires = $2 WHERE userid = $3',
+            [resetToken, expiresAt, user.userid]
+        );
+
+        // Logib tokeni konsooli
+        console.log(`FORGOT PASSWORD: Loodud token kasutajale ${user.email}: ${resetToken}`);
+
+        // vastus
+        return res.status(200).json({
+            message: "Token genereeritud ja salvestatud edukalt. Jätka alloleva nupuga.",
+            token: resetToken
+        });
+
+    } catch (error) {
+        console.error('Error in forgot-password:', error);
+        return res.status(500).json({ message: "Serveri viga tokeni loomisel." });
+    }
+});
+
+app.post('/api/reset-password', async (req, res) => {
+    const { token, password } = req.body;
+
+    if (!token || !password) {
+        return res.status(400).json({ message: "Token ja uus salasõna on nõutavad." });
+    }
+
+    try {
+        const userResult = await pool.query(
+            'SELECT userid, password, reset_password_expires FROM users WHERE reset_password_token = $1',
+            [token]
+        );
+        const user = userResult.rows[0];
+
+        if (!user) {
+            return res.status(400).json({ message: "Vigane parooli lähtestamise kood." });
+        }
+
+        // Kontrolli aegumist
+        const now = new Date();
+        if (now > user.reset_password_expires) {
+            // Kustuta aegunud token andmebasist
+            await pool.query('UPDATE users SET reset_password_token = NULL, reset_password_expires = NULL WHERE userid = $1', [user.userid]);
+            return res.status(400).json({ message: "Parooli lähtestamise link on aegunud." });
+        }
+
+        // Krüpteeri uus parool
+        const hashedPassword = await hash.hashPassword(password);
+
+        // Uuenda parool ja kustuta token
+        await pool.query(
+            'UPDATE users SET password = $1, reset_password_token = NULL, reset_password_expires = NULL WHERE userid = $2',
+            [hashedPassword, user.userid]
+        );
+
+        console.log(`RESET PASSWORD: Kasutaja ${user.userid} parool edukalt muudetud ja token kustutatud.`);
+        return res.status(200).json({ message: "Salasõna on edukalt uuendatud." });
+
+    } catch (error) {
+        console.error('Error in reset-password:', error);
+        return res.status(500).json({ message: "Serveri viga salasõna muutmisel." });
     }
 });
 

@@ -1,9 +1,42 @@
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import "../style/PasswordChange.css"
 import ProfileButton from "../components/ProfileButton.jsx";
 
 function ForgotPassword() {
+    const [email, setEmail] = useState('');
+    const [resetToken, setResetToken] = useState(null);
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setMessage('Kontrollin meiliaadressi...');
+
+        try {
+            const response = await fetch('/api/forgot-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.token) {
+                setResetToken(data.token);
+                setMessage('Kinnituslink loodi. Jätkamiseks vajuta nuppu allpool.');
+                console.log('ARENDUSKOOD:', data.token);
+
+            } else {
+                setMessage(data.message || 'Viga meiliaadressi töötlemisel.');
+                setResetToken(null);
+            }
+        } catch (error) {
+            setMessage('Serveriga ühenduse viga.');
+            setResetToken(null);
+        }
+    };
+
+
     return (
         <div className="page-container">
             <div className="content-box">
@@ -13,25 +46,40 @@ function ForgotPassword() {
                 </div>
 
                 <div className="description-text">
-                    <p>Sisesta oma e-posti aadress. Saadame sulle lingi salasõna lähtestamiseks.</p>
+                    <p>{message || "Sisesta oma e-posti aadress. Saadame sulle lingi salasõna lähtestamiseks."}</p>
                 </div>
 
-                <form className="data-form-section centered-form">
-                    <input
-                        type="email"
-                        placeholder="Sinu e-posti aadress"
-                        className="data-input"
-                        required
-                    />
+                <form onSubmit={handleSubmit} className="data-form-section centered-form">
+                    {!resetToken && (
+                        <input
+                            type="email"
+                            placeholder="Sinu e-posti aadress"
+                            className="data-input"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    )}
 
                     <div className="button-container">
-                        <ProfileButton
-                            text="SAADA LÄHTESTAMISE LINK"
-                            type="submit"
-                            width="220px"
-                            height="40px"
-                            fontSize="14px"
-                        />
+                        {!resetToken && (
+                            <ProfileButton
+                                text="SAADA KINNITUSLINK"
+                                type="submit"
+                                width="220px"
+                                height="40px"
+                            />
+                        )}
+
+                        {resetToken && (
+                            <Link to={`/reset-password?token=${resetToken}`} style={{ textDecoration: 'none' }}>
+                                <ProfileButton
+                                    text="JÄTKA PAROOLI VAHETAMISEGA"
+                                    width="280px"
+                                    height="40px"
+                                />
+                            </Link>
+                        )}
                     </div>
                 </form>
 
