@@ -99,6 +99,7 @@
     font-size: 1.1em;
     cursor: pointer;
     transition: background-color 0.2s;
+    box-sizing: border-box;
 }
 
 .pay-button:hover {

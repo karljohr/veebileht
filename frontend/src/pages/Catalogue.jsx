@@ -1,14 +1,7 @@
 import "../style/Catalogue.css";
 import { useState } from "react";
 import Lootbox from "../components/Lootbox.jsx";
-
-function Overlay({ text, isOpen, onClose }) {
-  return (
-    <div className={`overlay ${isOpen ? "open" : ""}`} onClick={onClose}>
-      <p className="text">{text}</p>
-    </div>
-  );
-}
+import InfoOverlay from "../components/InfoOverlay.jsx";
 
 function Catalogue() {
   const [openId, setOpenId] = useState(null);
@@ -20,7 +13,7 @@ function Catalogue() {
           Kuidas saagikastid töötavad ?
         </button>
       </div>
-      <Overlay
+      <InfoOverlay
         text="
             Saagikastid on erilise üllatusmomendiga tooted, kus ostja ei tea
             enne paki avamist täpselt, millise auhinna ta endale saab. Just see
