@@ -16,6 +16,8 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import UserData from "./pages/UserData.jsx";
 import PasswordChange from "./pages/PasswordChange.jsx";
 import BillingInfo from "./pages/BillingInfo.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 
 function App() {
   const location = useLocation();
@@ -65,6 +67,8 @@ function App() {
         <Route path="/userdata" element={<UserData/>}/>
         <Route path="/password-change" element={<PasswordChange/>}/>
         <Route path="/billing-info" element={<BillingInfo/>}/>
+        <Route path="/forgot-password" element={<ForgotPassword/>}/>
+        <Route path="/reset-password" element={<ResetPassword/>}/>
       </Routes>
     </>
   );

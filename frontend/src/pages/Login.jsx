@@ -65,6 +65,11 @@ function Login() {
                                 placeholder="Sisesta parool"
                             />
                         </div>
+                        <Link to="/forgot-password"  className="secondary-text">
+                            <p style={{color: "white"}}
+                            >Unustasid salasõna?
+                            </p>
+                        </Link>
 
                         <button type="submit" className="submit-button">Logi sisse</button>
                     </form>
