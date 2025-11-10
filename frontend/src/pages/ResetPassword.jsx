@@ -71,7 +71,6 @@ function ResetPassword() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            style={{ maxWidth: '300px' }} // Piirame sisendi laiust
                         />
 
                         <input
@@ -81,7 +80,6 @@ function ResetPassword() {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             required
-                            style={{ maxWidth: '300px' }} // Piirame sisendi laiust
                         />
 
                         <div className="button-container">
