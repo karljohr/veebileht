@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "../style/UserData.css"
 import ProfileButton from "../components/ProfileButton.jsx";
+import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 
 function UserData() {
@@ -101,9 +102,16 @@ function UserData() {
 
                 </form>
 
+                    <div className="footer-button-container">
+                        <Link to="/profile">
+                            <button className="back-button">
+                                &larr; Tagasi
+                            </button>
+                        </Link>
+                    </div>
             </div>
         </div>
-    );
+    )
 }
 
 export default UserData

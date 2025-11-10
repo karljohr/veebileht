@@ -1,6 +1,7 @@
 import React from "react";
 import "../style/BillingInfo.css"
 import ProfileButton from "../components/ProfileButton.jsx";
+import {Link} from "react-router-dom";
 
 function BillingInfo() {
 
@@ -66,6 +67,13 @@ function BillingInfo() {
                         color="black"
                         shadow="5px 5px 10px lightgray"
                     />
+                </div>
+                <div className="footer-button-container">
+                    <Link to="/profile">
+                        <button className="back-button">
+                            &larr; Tagasi
+                        </button>
+                    </Link>
                 </div>
             </div>
         </div>

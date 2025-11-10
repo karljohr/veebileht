@@ -1,7 +1,7 @@
 import Logo from "../components/Logo.jsx";
 import MenuButton from "../components/MenuButton.jsx";
-import ButtonHomepage from "../components/ButtonHomepage.jsx";
 import { Link } from "react-router-dom";
+import "../style/Home.css";
 
 function Home({ setNavbarOpen }) {
   return (
@@ -27,11 +27,7 @@ function Home({ setNavbarOpen }) {
             style={{ height: "25%", objectFit: "cover", filter: "invert(100)" }}
           />
           <Link to="/daily-product">
-            <ButtonHomepage
-              fill="#6F0013"
-              text="Päevatoode"
-              textColor="white"
-            />
+            <button className="daily-product-button">Päevatoode</button>
           </Link>
         </div>
       </div>
@@ -77,7 +73,7 @@ function Home({ setNavbarOpen }) {
             />
           </div>
           <Link to="/catalogue">
-            <ButtonHomepage text="Saagikastid" textColor="#6F0013" />
+            <button className="catalogue-button">Saagikastid</button>
           </Link>
         </div>
       </div>

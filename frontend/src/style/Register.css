@@ -83,6 +83,7 @@
     font-size: 18px;
     font-weight: bold;
     transition: background-color 0.2s;
+    box-sizing: border-box;
 }
 
 .submit-button:hover {
