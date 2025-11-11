@@ -41,6 +41,7 @@ Projektis on hetkel olemas:
 - Arveldusinfo lisamise alamleht
 - Salasõna muutmise alamleht
 - Kasutaja andmete muutmise alamleht
+- Unustatud salasõna asendamise avaleht
 
 
 Projektis on hetkel funktsionaalne:
@@ -52,8 +53,13 @@ Projektis on hetkel funktsionaalne:
   - Menüü nupud "Avaleht", "Profiil", "Logi Sisse" viivad vastavatele alamlehekülgedele.
   - Sisselogimise alamlehel "Loo kasutaja" tekstiviide viib konto loomise alamlehele.
   - "Logi Sisse", "Loo Kasutaja" ja "Maksa kohe" nupud viivad vastavale kinnituse alamlehele.
-- Päevatoote alamlehe nuppude frontend funktsionaalsus
-- Tootekataloogi alamlehe nuppude frontend funktsionaalsus
+  - Sisselogimise alamlehel "Unustasid salasõna?" tekstiviide viib parooli muutmise alamlehele.
+- Päevatoote alamlehe nuppude frontend funktsionaalsus.
+- Tootekataloogi alamlehe nuppude frontend funktsionaalsus.
+- Veebilehe andmebaas.
+- Kasutaja loomine.
+- Kasutaja andmete muutmine esialgsel kujul.
+- Kasutaja unustatud parooli korral uue parooli loomine esialgsel kujul.
 
 ## Projekti tulevik
 
@@ -76,9 +82,14 @@ Projekti on tulevikus veel lisandumas:
 
 1. Kloonida projekti main branch enda IDE-sse
 2. Avada projekti main branch enda IDE-s
-3. Sisestada terminali käsklus npm install
-4. Sisestada terminali käsklus cd .\frontend\
+3. Avada IDE terminali aken ning sisestada käsklus cd .\backend\
+4. Sisestada terminali käsklus npm install
 5. Sisestada terminali käsklus npm run dev
+6. Avada uus IDE terminali aken
+7. Sisestada terminali käsklus cd .\frontend\
+8. Sisestada terminali käsklus npm install
+9. Sisestada terminali käsklus npm run dev
+10. Avada konsooli ilmunud link
 
 ## Autorid
 
