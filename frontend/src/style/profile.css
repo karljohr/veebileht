@@ -7,144 +7,130 @@
 }
 
 .small_boxes {
-  @media (orientation: portrait) {
-    width: 100%;
-    height: 40%;
-  }
-  @media (orientation: landscape) {
-    width: 48%;
-    height: 100%;
-  }
-  margin: 0;
   display: flex;
+  flex-direction: row;
+  height: 10vh;
   align-items: center;
   justify-content: space-between;
-  padding-right: 30px;
-  padding-left: 30px;
+  padding: 2rem;
+  width: 100%;
 }
 
 #profile {
   width: 90%;
-  height: 45vh;
+  height: fit-content;
   display: flex;
   flex-direction: column;
-    padding: 20px 45px 20px 45px;
-    justify-content: space-between;
+  padding: 20px 45px 20px 45px;
+  justify-content: space-between;
 }
 
 #profile_box_title {
-    height: 15%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap:5px;
+  height: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
 }
 
 #profile_box_content {
-    height: 80%;
-    display: flex;
-    flex-direction: row;
-    gap:100px;
+  height: 80%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 7vw;
+    @media (max-width: 750px) {
+        flex-direction: column;
+        height: fit-content;
+    }
 }
 
 .profile_box_content_box {
-    display: flex;
-    justify-content: center;
-    /*border:2px solid red;*/
-    flex: 1;
-    flex-direction: column;
+  display: flex;
+  /*border:2px solid red;*/
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .k {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: fit-content;
-    width: 100%;
-    background-color: #ffffff;
-    padding: 0 40px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    box-shadow: inset 0 0 5px #aeaeae;
-    border: 2px solid rgba(0, 0, 0, 0.25);
-    @media (orientation: portrait) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90%;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 8vh 5vw;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px #aeaeae;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  gap: min(20px);
+    @media (max-width: 600px) {
         flex-direction: column;
-        gap:10px
     }
-    @media (orientation: landscape) {
-        flex-direction: row;
-        justify-content: space-between;
-        max-width: 450px
-    }
-
 }
 
 #pfp {
-    margin: 1rem 0;
-    height: 150px;
-    width: 150px;
+  display: flex;
+  position: relative;
+  height: clamp(70px, 20vh, 150px);
+  aspect-ratio: 1 / 1;
 }
 
-#pfp_gray_box {
-    height: 50%;
-    width: 100%;
-    position: relative;
-    bottom: 48%;
-    left: 0;
-    background-color: lightgray;
-    z-index: 1;
-    border-radius: 7px;
+#pfp::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50%;
+  background-color: lightgray;
+  z-index: 1;
+  border-radius: 15px;
 }
 
 #pfp_img {
-    position: relative;
-    top: 0;
-    left: 0;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 
 #textbox {
-    height: 100%;
-    display: grid;
-    grid-template-rows: 1fr auto;
-    gap: 5px;
-    box-sizing: border-box;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  box-sizing: border-box;
 }
 
 #textbox_text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 3vh;
+  font-size: clamp(1rem, 2.5vw, 20px);
 }
 
 #changebox {
-    display: flex;
-    justify-content: center;
-    height: 50px;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 #small_box_container {
-  @media (orientation: portrait) {
-    flex-direction: column;
-  }
-  @media (orientation: landscape) {
-    flex-direction: row;
-  }
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  @media (orientation: portrait) {
-    height: 25%;
-  }
-  @media (orientation: landscape) {
-    height: 15%;
-  }
   width: 90%;
+  gap: 7vw;
+  @media (max-width: 750px) {
+    flex-direction: column;
+    gap: 0;
+  }
 }
 
 p {
@@ -153,33 +139,22 @@ p {
 }
 
 h1 {
-  font-size: 150%;
+  font-size: clamp(1rem, 1.8vw, 1.7rem);
   color: black;
 }
 
 #content {
-  height: 90vh;
   display: flex;
   align-items: center;
   flex-direction: column;
-  @media (orientation: portrait) {
-    gap: 4vh;
-  }
-  @media (orientation: landscape) {
-    gap: 6vh;
-  }
+    margin-bottom: 3vh;
+    gap: 4vh
 }
-
-#line {
-  width: 30%;
-}
-
-
 
 #logout_box_container {
   height: 7%;
   width: 90%;
   display: flex;
   align-items: center;
+    margin: 3vh;
 }
-

@@ -47,10 +47,10 @@ function Profile() {
                 <div id="textbox_text">
                   <p>
                     <b>
-                      {firstName} {lastName}
+                      Nimi: {firstName} {lastName}
                     </b>
                   </p>
-                  <p>{email}</p>
+                  <p>Meiliaadress: {email}</p>
                 </div>
                 <Link to="/userdata">
                   <div id="changebox">
@@ -68,7 +68,7 @@ function Profile() {
           {/*Suure kasti parem pool*/}
           <div className="profile_box_content_box">
             <div className="k">
-              <p>WIP</p>
+              <p>Statistics jms?</p>
               {/*<p>Omatud kaste:</p>*/}
               {/*<p>Avatud kaste:</p>*/}
             </div>
