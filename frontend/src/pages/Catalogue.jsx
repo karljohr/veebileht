@@ -130,7 +130,7 @@ function Catalogue() {
         </li>
       </ul>
       <div className="bottom">
-        <p>© Tiim Veebipingviinid 2025</p>
+        <p className="bottom-text">© Tiim Veebipingviinid 2025</p>
       </div>
     </div>
   );
