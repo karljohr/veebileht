@@ -13,14 +13,14 @@
   color: black;
   font-size: 3vh;
   text-align: center;
-    justify-content: center;
+  justify-content: center;
   backdrop-filter: blur(10px);
-    align-items: center;
-    gap: 6rem;
-    @media (orientation: portrait) {
-        flex-direction: column;
-        gap: 3rem;
-    }
+  align-items: center;
+  gap: 6rem;
+  @media (orientation: portrait) {
+    flex-direction: column;
+    gap: 3rem;
+  }
 }
 
 .overlay.open {
@@ -28,15 +28,24 @@
 }
 
 #text_div {
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 2rem;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 2rem;
 }
 
-#text_div p, #text_div h3 {padding:0}
+#text_div p,
+#text_div h3 {
+  padding: 0;
+}
 
 #imgIO {
-    width: 15rem;
+  width: 15rem;
+}
+
+@media (max-width: 810px) {
+    .overlay {
+        font-size: 2vh;
+    }
 }
