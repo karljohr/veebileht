@@ -1,6 +1,11 @@
+#home {
+  display: flex;
+    min-height: 10vh;
+}
+
 .daily-product-button {
-  width: 330px;
-  height: 80px;
+  height: clamp(2.8rem, 8vh, 5rem);
+  aspect-ratio: 330 / 80;
   background-color: #6f0013;
   color: white;
   border: 3px solid #6f0013;
@@ -8,7 +13,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 40px;
+  font-size: clamp(1.7rem, 4vh, 5rem);
   transition: all 0.25s ease;
 }
 
@@ -18,8 +23,8 @@
 }
 
 .catalogue-button {
-  width: 330px;
-  height: 80px;
+  height: clamp(2.8rem, 8vh, 5rem);
+  aspect-ratio: 330 / 80;
   background-color: transparent;
   color: #6f0013;
   border: 3px solid #6f0013;
@@ -27,11 +32,123 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 40px;
+  font-size: clamp(1.7rem, 4vh, 5rem);
   transition: all 0.25s ease;
 }
 
 .catalogue-button:hover {
-    background-color: #6f0013;
-    color: white;
+  background-color: #6f0013;
+  color: white;
+}
+
+.left-side,
+.right-side {
+  flex-grow: 1;
+  align-content: center;
+  height: auto;
+  width: 50%;
+  justify-content: center;
+}
+
+.left-side {
+  background-color: black;
+}
+
+.right-side {
+  background-color: white;
+}
+
+.top-left,
+.top-right {
+  height: auto;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  position: absolute;
+    justify-content: center;
+}
+
+.top-left {
+  justify-content: left;
+  padding-left: 10px;
+  left: 0;
+}
+
+.top-right {
+  justify-content: right;
+  right: 0;
+}
+
+.logo-container {
+  height: clamp(4rem, 10vh, 5rem);
+  margin-top: 20px;
+}
+
+.question-img {
+  height: clamp(6rem, 25%, 100vh);
+  object-fit: cover;
+  filter: invert(100);
+}
+
+.big-img {
+  height: 180%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.center-box {
+  width: 100%;
+  height: clamp(6rem, 25%, 100vh);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-button-wrapper {
+    height: clamp(2rem, 10vh, 3.5rem);
+  background: none;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  margin-right: 20px;
+    margin-top: 1vh;
+}
+
+@media (max-width: 811px) {
+  #home {
+    flex-direction: column;
+  }
+
+  .left-side,
+  .right-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 70%;
+    width: 100%;
+  }
+
+  .left-side {
+    padding-top: 5vh;
+  }
+
+  .right-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .menu-button-wrapper {
+    filter: invert();
+  }
+
+  .logo-container {
+    margin-top: 0;
+  }
 }
