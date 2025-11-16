@@ -11,7 +11,7 @@ function MyBoxes() {
     const token = localStorage.getItem("token");
     const toggle = (id) => setOpenId(openId === id ? null : id);
 
-    // Fetch user boxes and display them.
+    // Fetch user boxes and display them
     useEffect(() => {
         if (!token) return;
 
