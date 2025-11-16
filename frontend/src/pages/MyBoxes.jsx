@@ -10,6 +10,9 @@ function MyBoxes() {
     const [boxes, setBoxes] = useState([]);
     const toggle = (id) => setOpenId(openId === id ? null : id);
 
+    // Fetch user boxes and display them
+    useEffect(() => {
+        if (!token) return;
 
     const addBox = (img_class) => {
         setBoxes(prev =>[...prev, img_class])
