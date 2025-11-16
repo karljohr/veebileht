@@ -68,7 +68,7 @@ function DailyProduct() {
         </Link>
       </div>
       <div className="bottom">
-        <p>© Tiim Veebipingviinid 2025</p>
+        <p className="bottom-text">© Tiim Veebipingviinid 2025</p>
       </div>
     </div>
   );
