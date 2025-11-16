@@ -229,6 +229,60 @@ app.post('/api/reset-password', async (req, res) => {
     }
 });
 
+//
+app.get("/api/user-boxes", auth, async (req, res) => {
+    const userId = req.user.userId;
+
+    const data = await pool.query('SELECT boxh, boxm, boxe, boxl FROM userinventory WHERE userid = $1', [userId]);
+
+    res.json(data.rows[0]);
+})
+
+app.post("/api/prize", async (req, res) => {
+    const id = req.body.boxId;
+    if (id === 0) return res.json("error");
+
+    try {
+        const prize = await pool.query('SELECT prize FROM prizes WHERE boxtype = $1 ORDER BY RANDOM() LIMIT 1', [id]);
+
+        if (prize.rows.length <= 0) {
+            return res.json({error: "No prize found"});
+        }
+
+        res.json({prize: prize.rows[0].prize});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Database error" });
+    }
+})
+
+app.post("/api/update-inventory", auth, async (req, res) => {
+    const userId = req.user.userId;
+    let { boxh, boxm, boxe, boxl } = req.body;
+    if (!boxh) boxh = 0;
+    if (!boxm) boxm = 0;
+    if (!boxe) boxe = 0;
+    if (!boxl) boxl = 0;
+
+    console.log(boxh, boxm, boxe, boxl)
+
+    try {
+        await pool.query('UPDATE userinventory SET boxh=$2, boxm=$3, boxe=$4, boxl=$5 WHERE userid=$1',
+            [userId, boxh, boxm, boxe, boxl]);
+    } catch (error) {
+        console.error(error);
+    }
+})
+
+app.get("/inventories", async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM userinventory')
+        res.json(result.rows);
+    } catch (error) {
+        console.error(error);
+    }
+})
+
 // Käivitame serveri
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
