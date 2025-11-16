@@ -16,8 +16,27 @@
     justify-content: center;
   backdrop-filter: blur(10px);
     align-items: center;
+    gap: 6rem;
+    @media (orientation: portrait) {
+        flex-direction: column;
+        gap: 3rem;
+    }
 }
 
 .overlay.open {
   transform: translateY(-50%) scaleY(1);
+}
+
+#text_div {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 2rem;
+}
+
+#text_div p, #text_div h3 {padding:0}
+
+#imgIO {
+    width: 15rem;
 }

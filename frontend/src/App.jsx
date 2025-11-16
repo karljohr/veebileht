@@ -18,6 +18,7 @@ import PasswordChange from "./pages/PasswordChange.jsx";
 import BillingInfo from "./pages/BillingInfo.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
+import MyBoxes from "./pages/MyBoxes.jsx";
 
 function App() {
   const location = useLocation();
@@ -69,6 +70,13 @@ function App() {
         <Route path="/billing-info" element={<BillingInfo/>}/>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/reset-password" element={<ResetPassword/>}/>
+        <Route path="/inventory"
+               element={
+                <ProtectedRoute url="/login">
+                    <MyBoxes/>
+                </ProtectedRoute>
+               }
+        />
       </Routes>
     </>
   );
