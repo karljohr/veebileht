@@ -37,7 +37,7 @@ const Menu = ({ navbarOpen, setNavbarOpen }) => {
           </li>
           <li className="menu-li">
             <Link
-              to="/"
+              to="/shopping-cart"
               className="menu-button"
               onClick={() => {
                 setNavbarOpen(false);
