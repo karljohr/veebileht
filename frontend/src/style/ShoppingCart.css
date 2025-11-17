@@ -103,9 +103,8 @@
 
 .button-container {
     display: flex;
-    justify-content: flex-end;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 0;
     box-sizing: border-box;
 }
 
@@ -125,6 +124,14 @@
 
 .buy-button:hover {
     background-color: #383838;
+}
+
+.footer-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+    padding-top: 10px;
 }
 
 @media (max-width: 750px) {

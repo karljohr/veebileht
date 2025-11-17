@@ -69,6 +69,14 @@ function ShoppingCart() {
                     </Link>
                 </div>
 
+                <div className="footer-button-container">
+                    <Link to="/">
+                        <button className="back-button">
+                            &larr; Tagasi avalehele
+                        </button>
+                    </Link>
+                </div>
+
             </div>
         </div>
     );
