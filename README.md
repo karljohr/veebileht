@@ -42,6 +42,8 @@ Projektis on hetkel olemas:
 - Salasõna muutmise alamleht
 - Kasutaja andmete muutmise alamleht
 - Unustatud salasõna asendamise avaleht
+- Ostukorvi alamleht
+- Omatud saagikastide alamleht
 
 
 Projektis on hetkel funktsionaalne:
@@ -60,15 +62,14 @@ Projektis on hetkel funktsionaalne:
 - Kasutaja loomine.
 - Kasutaja andmete muutmine esialgsel kujul.
 - Kasutaja unustatud parooli korral uue parooli loomine esialgsel kujul.
+- Omatud saagikastide alamlehel saab näha ja avada enda saagikaste.
 
 ## Projekti tulevik
 
 Projekti on tulevikus veel lisandumas:
 
-- Ostukorvi alamleht
-- Omatud saagikastide alamleht
+- Ostukorvi alamlehe backend osa
 - Navigeerimine iga lehekülje vahel
-- Saagikastide avamise funktsionaalsus
 - Kasutaja loomise ning andmete muutmise täiustatud funktsionaalsus
 
 ## Kasutatud tehnoloogiad ja raamistikud
@@ -80,7 +81,7 @@ Projekti on tulevikus veel lisandumas:
 
 ## Projekti lokaalselt käivitamine
 
-1. Kloonida projekti main branch enda IDE-sse
+1. Kloonida projekti main branch enda IDE-sse (nt PyCharm, VS Code)
 2. Avada projekti main branch enda IDE-s
 3. Avada IDE terminali aken ning sisestada käsklus cd .\backend\
 4. Sisestada terminali käsklus npm install
