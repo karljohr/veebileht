@@ -494,6 +494,24 @@ app.get("/api/cart", auth, async (req, res) => {
   }
 });
 
+app.get("/admin", auth, async (req, res) => {
+  const userId = req.user.userId;
+  if (userId === 13) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+});
+
+app.get("/api/info", async (req, res) => {
+  try {
+    const prizes = await pool.query("SELECT boxtype, prize FROM prizes");
+    res.json(prizes.rows);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // Käivitame serveri.
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

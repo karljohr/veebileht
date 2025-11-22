@@ -7,7 +7,7 @@ import Menu from "./components/Menu.jsx";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import Catalogue from "./pages/Catalogue.jsx";
-import LoginConfirmation from "./pages/LoginConfirmation.jsx"
+import LoginConfirmation from "./pages/LoginConfirmation.jsx";
 import RegisterConfirmation from "./pages/RegisterConfirmation.jsx";
 import DailyProduct from "./pages/DailyProduct.jsx";
 import Payment from "./pages/Payment.jsx";
@@ -20,6 +20,7 @@ import ResetPassword from "./pages/ResetPassword.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import MyBoxes from "./pages/MyBoxes.jsx";
 import ShoppingCart from "./pages/ShoppingCart.jsx";
+import Admin from "./pages/Admin.jsx";
 
 function App() {
   const location = useLocation();
@@ -30,85 +31,98 @@ function App() {
 
   const [navbarOpen, setNavbarOpen] = useState(false);
 
-    return (
-        <>
-            <div className="App">
-                {shouldShowNavbar && (
-                    <NavigationBar
-                        navbarOpen={navbarOpen}
-                        setNavbarOpen={setNavbarOpen}
-                    />
-                )}
-                <Menu navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen}/>
-            </div>
-            <Routes>
-                <Route path="/" element={<Home setNavbarOpen={setNavbarOpen}/>}/>
-                <Route path="/register" element={<Register/>}/>
-                <Route path="/catalogue" element={<Catalogue/>}/>
-                <Route
-                    path="/login"
-                    element={
-                        <ProtectedRoute url="/login/confirmation" reverse={true}>
-                            <Login/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path="/profile"
-                    element={
-                        <ProtectedRoute url="/login">
-                            <Profile/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route path="/login/confirmation" element={<LoginConfirmation/>}/>
-                <Route path="/register/confirmation" element={<RegisterConfirmation/>}/>
-                <Route path="/daily-product" element={<DailyProduct/>}/>
-                <Route path="/payment" element={<Payment/>}/>
-                <Route path="/payment/confirmation" element={<PaymentConfirmation/>}/>
-                <Route
-                    path="/userdata"
-                    element={
-                        <ProtectedRoute url="/login">
-                            <UserData/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path="/password-change"
-                    element={
-                        <ProtectedRoute url="/login">
-                            <PasswordChange/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route
-                    path="/billing-info"
-                    element={
-                        <ProtectedRoute url="/login">
-                            <BillingInfo/>
-                        </ProtectedRoute>
-                    }
-                />
-                <Route path="/forgot-password" element={<ForgotPassword/>}/>
-                <Route path="/reset-password" element={<ResetPassword/>}/>
-                <Route path="/inventory"
-                       element={
-                           <ProtectedRoute url="/login">
-                               <MyBoxes/>
-                           </ProtectedRoute>
-                       }
-                />
-                <Route path="/shopping-cart"
-                       element={
-                            <ProtectedRoute url="/login">
-                                <ShoppingCart/>
-                            </ProtectedRoute>
-                       }
-                />
-            </Routes>
-        </>
-    );
+  return (
+    <>
+      <div className="App">
+        {shouldShowNavbar && (
+          <NavigationBar
+            navbarOpen={navbarOpen}
+            setNavbarOpen={setNavbarOpen}
+          />
+        )}
+        <Menu navbarOpen={navbarOpen} setNavbarOpen={setNavbarOpen} />
+      </div>
+      <Routes>
+        <Route path="/" element={<Home setNavbarOpen={setNavbarOpen} />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/catalogue" element={<Catalogue />} />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRoute url="/login/confirmation" reverse={true}>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute url="/login">
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login/confirmation" element={<LoginConfirmation />} />
+        <Route
+          path="/register/confirmation"
+          element={<RegisterConfirmation />}
+        />
+        <Route path="/daily-product" element={<DailyProduct />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment/confirmation" element={<PaymentConfirmation />} />
+        <Route
+          path="/userdata"
+          element={
+            <ProtectedRoute url="/login">
+              <UserData />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/password-change"
+          element={
+            <ProtectedRoute url="/login">
+              <PasswordChange />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/billing-info"
+          element={
+            <ProtectedRoute url="/login">
+              <BillingInfo />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route
+          path="/inventory"
+          element={
+            <ProtectedRoute url="/login">
+              <MyBoxes />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/shopping-cart"
+          element={
+            <ProtectedRoute url="/login">
+              <ShoppingCart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute url="/login">
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
