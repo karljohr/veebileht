@@ -1,6 +1,6 @@
 import ProfileButton from "../components/ProfileButton.jsx";
 import "../style/profile.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function Profile() {
@@ -25,7 +25,7 @@ function Profile() {
         setLastName(data.last_name);
         setEmail(data.email);
       })
-      .catch((err) => console.error(err));
+      .catch((error) => console.log(error));
   }, [token]);
 
   return (
