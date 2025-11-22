@@ -1,0 +1,92 @@
+.admin_content {
+    border:2px solid red;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 25rem);
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.admin_box {
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    background-color: white;
+    box-shadow: 5px 5px 5px lightgray;
+    border-radius: 20px;
+    padding: 1rem;
+}
+
+.admin_content_box {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 0.5rem;
+    height: 30rem;
+    width: 25rem;
+    text-align: center;
+}
+
+.admin_li {
+    display: flex;
+    width: 100%;
+    line-height: normal;
+    align-items: center;
+    list-style: none;
+    outline: none;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    letter-spacing: normal;
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+    justify-content: center;
+}
+
+.admin_li:hover {
+    color: #6f0013;
+    cursor: url("../../public/delete.png"), auto;
+    scale: 1.1;
+}
+
+.left_right_goodnight {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 0 1rem;
+}
+
+.admin_button:hover {
+    color: #6f0013;
+    scale: 1.4;
+}
+
+.scroll_box {
+    overflow-y: scroll;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+}
+
+.scroll_box.flipped {
+    transform: rotateY(180deg);
+}
+
+.scroll_box::-webkit-scrollbar {
+    display: none;
+}
+
+.flipped_sheet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    transform: rotateY(180deg);
+}
+
+.admin_box_form {
+    display: grid;
+    gap: 3rem;
+}
+
+.admin_select {
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    background-color: white;
+    box-shadow: 5px 5px 5px lightgray;
+    border-radius: 10px;
+    padding: 0.2rem;
+}
