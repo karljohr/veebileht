@@ -1,33 +1,100 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import "../style/ShoppingCart.css"
 import "../style/Catalogue.css"
 
-const cartItems = [
-    {
-        id: 1,
-        name: "Haruldane saagikast",
-        priceRange: "5–10€",
-        minPrice: 10,
-        maxPrice: 25,
-        imgClass: "rare"
-    },
-    {
-        id: 2,
-        name: "Müstiline saagikast",
-        priceRange: "10-25€",
-        minPrice: 5,
-        maxPrice: 10,
-        imgClass: "mystic"
-    }
-];
-
-const totalMin = cartItems.reduce((sum, item) => sum + item.minPrice, 0);
-const totalMax = cartItems.reduce((sum, item) => sum + item.maxPrice, 0);
-const totalDisplay = `${totalMin}–${totalMax}€`;
+const API_URL = "http://localhost:5000";
 
 
 function ShoppingCart() {
+    const [cartItems, setCartItems] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [totalMin, setTotalMin] = useState(0);
+    const [totalMax, setTotalMax] = useState(0);
+    const [error, setError] = useState(null);
+
+    // Ostukorvi sisu laadimne
+    const fetchCartData = async () => {
+        setLoading(true);
+        setError(null);
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            setError("Kasutaja pole sisse logitud või token puudub.");
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/api/cart`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error("Sessioon aegus. Palun logi uuesti sisse.");
+                }
+                throw new Error("Andmete laadimine ebaõnnestus.");
+            }
+
+            const data = await response.json();
+
+            setCartItems(data.items);
+            setTotalMin(parseFloat(data.totalMinPrice));
+            setTotalMax(parseFloat(data.totalMaxPrice));
+
+        } catch (err) {
+            console.error("Viga ostukorvi laadimisel:", err);
+            setError(err.message || "Andmete laadimisel tekkis ootamatu viga.");
+            setCartItems([]);
+            setTotalMin(0);
+            setTotalMax(0);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchCartData();
+    }, []);
+
+    const totalDisplay = `${totalMin.toFixed(2)}–${totalMax.toFixed(2)}€`;
+
+    if (loading) {
+        return <div className="page-container">Laadimine...</div>;
+    }
+
+    if (error) {
+        return (
+            <div className="page-container">
+                <div className="content-box">
+                    <h2>Viga</h2>
+                    <p>{error}</p>
+                    <Link to="/login">Mine Logi sisse</Link>
+                </div>
+            </div>
+        );
+    }
+
+    if (cartItems.length === 0) {
+        return (
+            <div className="page-container">
+                <div className="content-box">
+                    <h2>Ostukorv on tühi</h2>
+                    <p>Lisa tooteid kataloogist, et jätkata.</p>
+                    <Link to="/catalogue">Mine Kataloogi</Link>
+                </div>
+            </div>
+        );
+    }
+
+
+
     return (
         <div className="page-container">
             <div className="content-box">
@@ -38,22 +105,37 @@ function ShoppingCart() {
                 </div>
 
                 <div className="item-list">
-                    {cartItems.map(item => (
-                        <div key={item.id} className="cart-item-card">
+                    {cartItems.map(item => {
+                        let imgClass = '';
+                        const itemNameLower = item.name ? item.name.toLowerCase() : '';
+
+                        if (itemNameLower.includes('haruldane')) {
+                            imgClass = 'rare';
+                        } else if (itemNameLower.includes('müstiline')) {
+                            imgClass = 'mystic';
+                        } else if (itemNameLower.includes('eepiline')) {
+                            imgClass = 'epic';
+                        } else if (itemNameLower.includes('legendaarne')) {
+                            imgClass = 'legendary';
+                        }
+
+                        return (
+                        <div key={item.cartitemid} className="cart-item-card">
                             <div className="item-image-container">
                                 <img
                                     src="../../public/karp2.png"
                                     alt={item.name}
-                                    className={`box-image ${item.imgClass}`}
+                                    className={`box-image ${imgClass}`}
                                 />
                             </div>
 
                             <div className="item-details">
-                                <span className="item-name">{item.name}</span>
-                                <span className="item-price">{item.priceRange}</span>
+                                <span className="item-name">{item.name} ({item.quantity} tk)</span>
+                                <span className="item-price">{parseFloat(item.min_price).toFixed(2)}–{parseFloat(item.max_price).toFixed(2)}€</span>
                             </div>
                         </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
                 <div className="cart-summary">
