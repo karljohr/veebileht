@@ -86,6 +86,7 @@
 }
 
 .pay-button {
+    display: flex;
   width: 100%;
   padding: 15px;
   margin-top: 25px;
@@ -97,6 +98,12 @@
   cursor: pointer;
   transition: background-color 0.2s;
   box-sizing: border-box;
+    justify-content: center;
+}
+
+button[disabled] {
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 .pay-button:hover {

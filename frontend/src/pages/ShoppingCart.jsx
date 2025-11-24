@@ -1,167 +1,164 @@
-import React, {useState, useEffect} from "react";
-import {Link} from "react-router-dom";
-import "../style/ShoppingCart.css"
-import "../style/Catalogue.css"
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "../style/ShoppingCart.css";
+import "../style/Catalogue.css";
 
 const API_URL = "http://localhost:5000";
 
-
 function ShoppingCart() {
-    const [cartItems, setCartItems] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [totalMin, setTotalMin] = useState(0);
-    const [totalMax, setTotalMax] = useState(0);
-    const [error, setError] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [totalMin, setTotalMin] = useState(0);
+  const [totalMax, setTotalMax] = useState(0);
+  const [error, setError] = useState(null);
 
-    // Ostukorvi sisu laadimne
-    const fetchCartData = async () => {
-        setLoading(true);
-        setError(null);
+  localStorage.setItem("totalMax", totalMax);
 
-        const token = localStorage.getItem("token");
+  // Ostukorvi sisu laadimne
+  const fetchCartData = async () => {
+    setLoading(true);
+    setError(null);
 
-        if (!token) {
-            setError("Kasutaja pole sisse logitud või token puudub.");
-            setLoading(false);
-            return;
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setError("Kasutaja pole sisse logitud või token puudub.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/api/cart`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error("Sessioon aegus. Palun logi uuesti sisse.");
         }
+        throw new Error("Andmete laadimine ebaõnnestus.");
+      }
 
-        try {
-            const response = await fetch(`${API_URL}/api/cart`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-            });
+      const data = await response.json();
 
-            if (!response.ok) {
-                if (response.status === 401) {
-                    throw new Error("Sessioon aegus. Palun logi uuesti sisse.");
-                }
-                throw new Error("Andmete laadimine ebaõnnestus.");
+      setCartItems(data.items);
+      setTotalMin(parseFloat(data.totalMinPrice));
+      setTotalMax(parseFloat(data.totalMaxPrice));
+    } catch (err) {
+      console.error("Viga ostukorvi laadimisel:", err);
+      setError(err.message || "Andmete laadimisel tekkis ootamatu viga.");
+      setCartItems([]);
+      setTotalMin(0);
+      setTotalMax(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCartData();
+  }, []);
+
+  const totalDisplay = `${totalMin.toFixed(0)}–${totalMax.toFixed(0)} ❂`;
+
+  if (loading) {
+    return <div className="page-container">Laadimine...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="page-container">
+        <div className="content-box">
+          <h2>Viga</h2>
+          <p>{error}</p>
+          <Link to="/login">Mine Logi sisse</Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (cartItems.length === 0) {
+    return (
+      <div className="page-container">
+        <div className="content-box">
+          <h2>Ostukorv on tühi</h2>
+          <p>Lisa tooteid kataloogist, et jätkata.</p>
+          <Link to="/catalogue">Mine Kataloogi</Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="page-container">
+      <div className="content-box">
+        <div className="title-section">
+          <h1 className="title">OSTUKORV</h1>
+          <hr className="title-separator" />
+        </div>
+
+        <div className="item-list">
+          {cartItems.map((item) => {
+            let imgClass = "";
+            const itemNameLower = item.name ? item.name.toLowerCase() : "";
+
+            if (itemNameLower.includes("haruldane")) {
+              imgClass = "rare";
+            } else if (itemNameLower.includes("müstiline")) {
+              imgClass = "mystic";
+            } else if (itemNameLower.includes("eepiline")) {
+              imgClass = "epic";
+            } else if (itemNameLower.includes("legendaarne")) {
+              imgClass = "legendary";
             }
 
-            const data = await response.json();
-
-            setCartItems(data.items);
-            setTotalMin(parseFloat(data.totalMinPrice));
-            setTotalMax(parseFloat(data.totalMaxPrice));
-
-        } catch (err) {
-            console.error("Viga ostukorvi laadimisel:", err);
-            setError(err.message || "Andmete laadimisel tekkis ootamatu viga.");
-            setCartItems([]);
-            setTotalMin(0);
-            setTotalMax(0);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchCartData();
-    }, []);
-
-    const totalDisplay = `${totalMin.toFixed(2)}–${totalMax.toFixed(2)}€`;
-
-    if (loading) {
-        return <div className="page-container">Laadimine...</div>;
-    }
-
-    if (error) {
-        return (
-            <div className="page-container">
-                <div className="content-box">
-                    <h2>Viga</h2>
-                    <p>{error}</p>
-                    <Link to="/login">Mine Logi sisse</Link>
-                </div>
-            </div>
-        );
-    }
-
-    if (cartItems.length === 0) {
-        return (
-            <div className="page-container">
-                <div className="content-box">
-                    <h2>Ostukorv on tühi</h2>
-                    <p>Lisa tooteid kataloogist, et jätkata.</p>
-                    <Link to="/catalogue">Mine Kataloogi</Link>
-                </div>
-            </div>
-        );
-    }
-
-
-
-    return (
-        <div className="page-container">
-            <div className="content-box">
-
-                <div className="title-section">
-                    <h1 className="title">OSTUKORV</h1>
-                    <hr className="title-separator"/>
+            return (
+              <div key={item.cartitemid} className="cart-item-card">
+                <div className="item-image-container">
+                  <img
+                    src="../../public/karp2.png"
+                    alt={item.name}
+                    className={`box-image ${imgClass}`}
+                  />
                 </div>
 
-                <div className="item-list">
-                    {cartItems.map(item => {
-                        let imgClass = '';
-                        const itemNameLower = item.name ? item.name.toLowerCase() : '';
-
-                        if (itemNameLower.includes('haruldane')) {
-                            imgClass = 'rare';
-                        } else if (itemNameLower.includes('müstiline')) {
-                            imgClass = 'mystic';
-                        } else if (itemNameLower.includes('eepiline')) {
-                            imgClass = 'epic';
-                        } else if (itemNameLower.includes('legendaarne')) {
-                            imgClass = 'legendary';
-                        }
-
-                        return (
-                        <div key={item.cartitemid} className="cart-item-card">
-                            <div className="item-image-container">
-                                <img
-                                    src="../../public/karp2.png"
-                                    alt={item.name}
-                                    className={`box-image ${imgClass}`}
-                                />
-                            </div>
-
-                            <div className="item-details">
-                                <span className="item-name">{item.name} ({item.quantity} tk)</span>
-                                <span className="item-price">{parseFloat(item.min_price).toFixed(2)}–{parseFloat(item.max_price).toFixed(2)}€</span>
-                            </div>
-                        </div>
-                        );
-                    })}
+                <div className="item-details">
+                  <span className="item-name">
+                    {item.name} ({item.quantity} tk)
+                  </span>
+                  <span className="item-price">
+                    {parseFloat(item.min_price).toFixed(0)}–
+                    {parseFloat(item.max_price).toFixed(0)} ❂
+                  </span>
                 </div>
-
-                <div className="cart-summary">
-                    <span className="summary-total-label">Kokku</span>
-                    <span className="summary-total-value">{totalDisplay}</span>
-                </div>
-
-                <div className="button-container">
-                    <Link to="/payment">
-                        <button className="buy-button">
-                            Osta
-                        </button>
-                    </Link>
-                </div>
-
-                <div className="footer-button-container">
-                    <Link to="/">
-                        <button className="back-button">
-                            &larr; Tagasi avalehele
-                        </button>
-                    </Link>
-                </div>
-
-            </div>
+              </div>
+            );
+          })}
         </div>
-    );
+
+        <div className="cart-summary">
+          <span className="summary-total-label">Kokku</span>
+          <span className="summary-total-value">{totalDisplay}</span>
+        </div>
+
+        <div className="button-container">
+          <Link to="/payment">
+            <button className="buy-button">Osta</button>
+          </Link>
+        </div>
+
+        <div className="footer-button-container">
+          <Link to="/">
+            <button className="back-button">&larr; Tagasi avalehele</button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default ShoppingCart
+export default ShoppingCart;
