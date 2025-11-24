@@ -321,6 +321,109 @@ app.get("/inventories", async (req, res) => {
   }
 });
 
+app.post("/api/cart/add", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { productID, quantity } = req.body;
+
+  if (!productID || !quantity || quantity < 1) {
+    return res.status(400).json({ error: "Vigane toote ID või kogus." });
+  }
+
+  try {
+    // Leia või loo kasutajale aktiivne cartID
+    let cartResult = await pool.query("SELECT cartid FROM cart WHERE userid = $1", [userId]);
+    let cartId;
+
+    if (cartResult.rows.length === 0) {
+      const newCart = await pool.query(
+        "INSERT INTO cart (userid) VALUES ($1) RETURNING cartid",
+        [userId]
+      );
+      cartId = newCart.rows[0].cartid;
+    } else {
+      cartId = cartResult.rows[0].cartid;
+    }
+
+    // Kontrolli, kas toode juba ostukorvis olemas
+    const itemResult = await pool.query(
+      "SELECT cartitemid, quantity FROM cart_items WHERE cartid = $1 AND productid = $2",
+      [cartId, productID]
+    );
+
+    if (itemResult.rows.length > 0) {
+      const existingQuantity = itemResult.rows[0].quantity;
+      const newQuantity = existingQuantity + quantity;
+
+      await pool.query(
+        "UPDATE cart_items SET quantity = $1 WHERE cartitemid = $2",
+        [newQuantity, itemResult.rows[0].cartitemid]
+      );
+    } else {
+      await pool.query(
+        "INSERT INTO cart_items (cartid, productid, quantity) VALUES ($1, $2, $3)",
+        [cartId, productID, quantity]
+      );
+    }
+
+    const updatedTotal = await pool.query(
+      "SELECT SUM(quantity) AS total_items FROM cart_items WHERE cartid = $1",
+      [cartId]
+    );
+
+    res.status(201).json({
+      message: "Toode lisatud/uuendatud ostukorvis.",
+      totalItems: parseInt(updatedTotal.rows[0].total_items) || 0,
+    });
+  } catch (err) {
+    console.error("Error adding to cart:", err);
+    res.status(500).send("Server error ostukorvi lisamisel.");
+  }
+});
+
+app.get("/api/cart", auth, async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const cartResult = await pool.query("SELECT cartid FROM cart WHERE userid = $1", [userId]);
+
+    if (cartResult.rows.length === 0) {
+      return res.status(200).json({ items: [], totalMinPrice: 0, totalMaxPrice: 0 });
+    }
+
+    const cartId = cartResult.rows[0].cartid;
+
+    // Ostukorvi esemete saamisne
+    const itemsQuery = `
+      SELECT 
+        ci.cartitemid, ci.productid, ci.quantity, 
+        pc.name, pc.min_price, pc.max_price
+      FROM cart_items ci 
+      JOIN product_catalogue pc ON ci.productid = pc.productid 
+      WHERE ci.cartid = $1;
+    `;
+
+    const itemsResult = await pool.query(itemsQuery, [cartId]);
+    const items = itemsResult.rows;
+
+    let totalMinPrice = 0;
+    let totalMaxPrice = 0;
+
+    items.forEach(item => {
+        totalMinPrice += parseFloat(item.min_price) * item.quantity;
+        totalMaxPrice += parseFloat(item.max_price) * item.quantity;
+    });
+
+    res.status(200).json({
+      items: items,
+      totalMinPrice: totalMinPrice.toFixed(2),
+      totalMaxPrice: totalMaxPrice.toFixed(2),
+    });
+  } catch (err) {
+    console.error("Error fetching cart:", err);
+    res.status(500).send("Server error ostukorvi laadimisel.");
+  }
+});
+
 // Käivitame serveri.
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

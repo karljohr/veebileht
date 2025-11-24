@@ -3,9 +3,53 @@ import { useState } from "react";
 import Lootbox from "../components/Lootbox.jsx";
 import InfoOverlay from "../components/InfoOverlay.jsx";
 
+const API_URL = "http://localhost:5000";
+
 function Catalogue() {
   const [openId, setOpenId] = useState(null);
   const toggle = (id) => setOpenId(openId === id ? null : id);
+
+  const addToCart = async (productID, productName) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Ostukorvi lisamiseks palun logi sisse.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${API_URL}/api/cart/add`,
+        {
+          method: 'POST', // Meetod peab olema POST
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            productID: productID,
+            quantity: 1
+          })
+        }
+      );
+
+      if (!response.ok) {
+        let errorMessage = "Viga kasti lisamisel.";
+        if (response.status === 401) {
+          errorMessage = "Sessioon aegunud. Palun logi uuesti sisse.";
+        } else if (response.status === 400) {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        }
+        throw new Error(errorMessage);
+      }
+
+    } catch (error) {
+      console.error("Viga kasti lisamisel:", error.message);
+      alert(error.message);
+    }
+  };
+
   return (
     <div className="content">
       <div className="info">
@@ -31,6 +75,7 @@ function Catalogue() {
       <ul className="lootbox-list">
         <li>
           <Lootbox
+            productID={1}
             image="/karp.png"
             nimi="Haruldane saagikast"
             hind="5 - 10 €"
@@ -51,10 +96,12 @@ function Catalogue() {
             ]}
             reverse={false}
             imgClass="rare"
+            onAddToCart={addToCart}
           />
         </li>
         <li>
           <Lootbox
+            productID={2}
             image="/karp.png"
             nimi="Müstiline saagikast"
             hind="10 - 25 €"
@@ -76,10 +123,12 @@ function Catalogue() {
             ]}
             reverse={true}
             imgClass="mystic"
+            onAddToCart={addToCart}
           />
         </li>
         <li>
           <Lootbox
+            productID={3}
             image="/karp.png"
             nimi="Eepiline saagikast"
             hind="25 - 50 €"
@@ -101,10 +150,12 @@ function Catalogue() {
             ]}
             reverse={false}
             imgClass="epic"
+            onAddToCart={addToCart}
           />
         </li>
         <li>
           <Lootbox
+            productID={4}
             image="/karp.png"
             nimi="Legendaarne saagikast"
             hind="50 - 100 €"
@@ -126,6 +177,7 @@ function Catalogue() {
             ]}
             reverse={true}
             imgClass="legendary"
+            onAddToCart={addToCart}
           />
         </li>
       </ul>
