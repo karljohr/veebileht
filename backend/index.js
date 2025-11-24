@@ -367,6 +367,26 @@ app.post("/api/delete-box", auth, async (req, res) => {
   }
 });
 
+app.get("/api/dayproduct", async (req, res) => {
+  try {
+    const data = await pool.query(
+      "SELECT * FROM dayproduct WHERE activated=true",
+    );
+    const { name, description, startprice, endprice, activated } = data.rows[0];
+    const time = new Date();
+    const step = Math.floor(startprice / 24);
+    let price;
+    if (time.getHours() < 24) {
+      price = startprice - step * time.getHours();
+    } else {
+      price = endprice;
+    }
+    res.json({ name, description, price, startprice });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // Käivitame serveri.
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

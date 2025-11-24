@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../style/DailyProduct.css";
 import InfoOverlay from "../components/InfoOverlay";
@@ -6,6 +6,29 @@ import InfoOverlay from "../components/InfoOverlay";
 function DailyProduct() {
   const [openId, setOpenId] = useState(null);
   const toggle = (id) => setOpenId(openId === id ? null : id);
+  const [product, setProduct] = useState({
+    name: "data.name",
+    description: "data.description",
+    price: 0,
+    startPrice: 0,
+  });
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/dayproduct")
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct({
+          name: data.name,
+          description: data.description,
+          price: data.price,
+          startPrice: data.startprice,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <div className="daily-product-container">
       <img className="palm-right" src="/palm_tree.png" alt="palm-right" />
@@ -31,10 +54,10 @@ function DailyProduct() {
           <h1 className="title">Ainult täna!!</h1>
         </div>
         <div className="extra-info">
-          <h2 className="subtitle">Müstiline energiajook</h2>
+          <h2 className="subtitle">{product.name}</h2>
         </div>
         <div className="product-card">
-          <div className="sold-tag">Müüdud</div>
+          {/*<div className="sold-tag">Müüdud</div>*/}
           <img
             src="../../public/energy-drink.jpg"
             alt="Product image"
@@ -42,25 +65,24 @@ function DailyProduct() {
           />
         </div>
 
-        <p className="product-description">
-          Väidetavalt annab +5 karismat ja -3 und.
-        </p>
+        <p className="product-description">{product.description}</p>
 
         <p className="current-price-text">
-          Praegune hind: <span className="price-value">14 €</span>
+          Praegune hind: <span className="price-value">{product.price} €</span>
         </p>
 
         <div className="price-slider-area">
-          <span className="min-value">1 €</span>
+          <span className="min-value">{product.startPrice} €</span>
           <input
             type="range"
             min="1"
             max="100"
-            value="14"
+            value={Math.floor((product.price / product.startPrice) * 100)}
             className="price-slider"
             disabled
+            style={{ direction: "rtl" }}
           />
-          <span className="max-value">100 €</span>
+          <span className="max-value">? €</span>
         </div>
 
         <Link to="/payment">
