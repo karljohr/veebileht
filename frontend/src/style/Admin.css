@@ -91,3 +91,16 @@
     border-radius: 10px;
     padding: 0.2rem;
 }
+
+.admin_box_image {
+    height: 10rem;
+    border-radius: 0.5rem;
+    align-self: center;
+}
+
+.admin_dayproduct_box {
+    display: grid;
+    grid-template-rows: 1fr auto auto auto;
+    gap: 1rem;
+    justify-items: center;
+}
