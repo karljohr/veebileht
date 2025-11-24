@@ -469,7 +469,8 @@ app.get("/api/cart", auth, async (req, res) => {
         pc.name, pc.min_price, pc.max_price
       FROM cart_items ci 
       JOIN product_catalogue pc ON ci.productid = pc.productid 
-      WHERE ci.cartid = $1;
+      WHERE ci.cartid = $1
+      ORDER BY ci.cartitemid ASC;
     `;
 
     const itemsResult = await pool.query(itemsQuery, [cartId]);
@@ -576,6 +577,94 @@ app.get("/api/dayproducts", async (req, res) => {
     res.json(data.rows);
   } catch (error) {
     console.error(error);
+  }
+});
+
+app.delete("/api/cart/clear", auth, async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const cartResult = await pool.query("SELECT cartid FROM cart WHERE userid = $1", [userId]);
+    if (cartResult.rows.length === 0) {
+      return res.status(200).json({ message: "Ostukorvi ei leitud/on juba tühi." });
+    }
+    const cartId = cartResult.rows[0].cartid;
+
+    await pool.query("DELETE FROM cart_items WHERE cartid = $1", [cartId]);
+    await pool.query("DELETE FROM cart WHERE cartid = $1", [cartId]);
+
+    res.status(200).json({ message: "Ostukorv tühjendatud edukalt." });
+  } catch (err) {
+    console.error("Viga ostukorvi tühjendamisel:", err);
+    res.status(500).json({ error: "Server error ostukorvi tühjendamisel." });
+  }
+});
+
+app.post("/api/cart/add_one", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { cartItemId } = req.body;
+
+  try {
+    const cartResult = await pool.query("SELECT cartid FROM cart WHERE userid = $1", [userId]);
+    if (cartResult.rows.length === 0) {
+      return res.status(404).json({ message: "Ostukorvi ei leitud." });
+    }
+    const cartId = cartResult.rows[0].cartid;
+
+    const updateResult = await pool.query(
+      "UPDATE cart_items SET quantity = quantity + 1 WHERE cartitemid = $1 AND cartid = $2 RETURNING quantity",
+      [cartItemId, cartId]
+    );
+
+    if (updateResult.rows.length === 0) {
+        return res.status(404).json({ message: "Eset ei leitud ostukorvist." });
+    }
+
+    return res.status(200).json({ message: "Kogust suurendati.", newQuantity: updateResult.rows[0].quantity });
+
+  } catch (err) {
+    console.error("Viga eseme koguse suurendamisel:", err);
+    res.status(500).json({ error: "Server error eseme koguse suurendamisel." });
+  }
+});
+
+app.post("/api/cart/remove", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { cartItemId } = req.body;
+
+  if (!cartItemId) {
+    return res.status(400).json({ error: "Ese ID (cartItemId) on nõutav." });
+  }
+
+  try {
+    const itemResult = await pool.query(
+      `SELECT ci.quantity, ci.cartid 
+       FROM cart_items ci
+       JOIN cart c ON ci.cartid = c.cartid
+       WHERE ci.cartitemid = $1 AND c.userid = $2`,
+      [cartItemId, userId]
+    );
+
+    if (itemResult.rows.length === 0) {
+      return res.status(404).json({ message: "Eset ei leitud ostukorvist või see ei kuulu sinule." });
+    }
+
+    const currentQuantity = itemResult.rows[0].quantity;
+
+    if (currentQuantity > 1) {
+      await pool.query(
+        "UPDATE cart_items SET quantity = quantity - 1 WHERE cartitemid = $1",
+        [cartItemId]
+      );
+      return res.status(200).json({ message: "Eseme kogust vähendati." });
+    } else {
+      await pool.query("DELETE FROM cart_items WHERE cartitemid = $1", [cartItemId]);
+      return res.status(200).json({ message: "Ese eemaldati ostukorvist." });
+    }
+
+  } catch (err) {
+    console.error("Viga eseme eemaldamisel/vähendamisel:", err);
+    res.status(500).json({ error: "Server error eseme eemaldamisel/vähendamisel." });
   }
 });
 
