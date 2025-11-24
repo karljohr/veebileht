@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import "../style/Lootbox.css";
 
-const Lootbox = ({ image, nimi, hind, prizes, reverse, imgClass }) => {
+const Lootbox = ({ image, nimi, hind, prizes, reverse, imgClass, productID, onAddToCart }) => {
   const [isFlipped, setFlipped] = useState(false);
   const handleFlip = () => {
     setFlipped(!isFlipped);
   };
   const [showToast, setShowToast] = useState(false);
-  const handleAddToCart = () => {
-    // Add item to cart logic hiljem
+  const handleCartClick = () => {
+    onAddToCart(productID, nimi);
+
     setShowToast(true);
     setTimeout(() => setShowToast(false), 3000);
   };
@@ -35,7 +36,7 @@ const Lootbox = ({ image, nimi, hind, prizes, reverse, imgClass }) => {
               <button className="prizes" onClick={handleFlip}>
                 Võimalikud auhinnad ?
               </button>
-              <button className="cart" onClick={handleAddToCart}>
+              <button className="cart" onClick={handleCartClick}>
                 Lisa ostukorvi
               </button>
             </div>
