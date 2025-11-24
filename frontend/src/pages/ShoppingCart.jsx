@@ -63,6 +63,79 @@ function ShoppingCart() {
         fetchCartData();
     }, []);
 
+    const handleClearCart = async () => {
+        const token = localStorage.getItem("token");
+
+        try {
+            const response = await fetch(`${API_URL}/api/cart/clear`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Ostukorvi tühjendamine ebaõnnestus.");
+            }
+
+            fetchCartData();
+
+        } catch (error) {
+            console.error("Viga ostukorvi tühjendamisel:", error.message);
+            alert("Viga: " + error.message);
+        }
+    };
+
+    const handleDecreaseQuantity = async (cartItemId) => {
+        const token = localStorage.getItem("token");
+
+        try {
+            const response = await fetch(`${API_URL}/api/cart/remove`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ cartItemId: parseInt(cartItemId) })
+            });
+
+            if (!response.ok) {
+                throw new Error("Eseme koguse vähendamine ebaõnnestus.");
+            }
+
+            fetchCartData();
+
+        } catch (error) {
+            console.error("Viga eseme koguse vähendamisel:", error.message);
+            alert("Viga: " + error.message);
+        }
+    };
+
+    const handleIncreaseQuantity = async (cartItemId) => {
+        const token = localStorage.getItem("token");
+
+        try {
+            const response = await fetch(`${API_URL}/api/cart/add_one`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ cartItemId: parseInt(cartItemId) })
+            });
+
+            if (!response.ok) {
+                throw new Error("Eseme koguse suurendamine ebaõnnestus.");
+            }
+
+            fetchCartData();
+
+        } catch (error) {
+            console.error("Viga eseme koguse suurendamisel:", error.message);
+            alert("Viga: " + error.message);
+        }
+    };
+
     const totalDisplay = `${totalMin.toFixed(2)}–${totalMax.toFixed(2)}€`;
 
     if (loading) {
@@ -130,12 +203,41 @@ function ShoppingCart() {
                             </div>
 
                             <div className="item-details">
-                                <span className="item-name">{item.name} ({item.quantity} tk)</span>
+                                <span className="item-name">{item.name}</span>
                                 <span className="item-price">{parseFloat(item.min_price).toFixed(2)}–{parseFloat(item.max_price).toFixed(2)}€</span>
+                            </div>
+
+                            <div className="quantity-controls">
+                                <button
+                                    className="quantity-button decrease-button"
+                                    onClick={() => handleDecreaseQuantity(item.cartitemid)}
+                                >
+                                    –
+                                </button>
+
+                                <span className="item-quantity-display">
+                                    {item.quantity} tk
+                                </span>
+
+                                <button
+                                    className="quantity-button increase-button"
+                                    onClick={() => handleIncreaseQuantity(item.cartitemid)}
+                                >
+                                    +
+                                </button>
                             </div>
                         </div>
                         );
                     })}
+                </div>
+
+                <div className="clear-cart-container">
+                    <button
+                        onClick={handleClearCart}
+                        className="clear-cart-button"
+                    >
+                        Tühjenda ostukorv
+                    </button>
                 </div>
 
                 <div className="cart-summary">
