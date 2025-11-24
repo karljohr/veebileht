@@ -1,12 +1,13 @@
 import ProfileButton from "../components/ProfileButton.jsx";
 import "../style/profile.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function Profile() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [wallet, setWallet] = useState("");
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -24,6 +25,19 @@ function Profile() {
         setFirstName(data.first_name);
         setLastName(data.last_name);
         setEmail(data.email);
+      })
+      .catch((error) => console.log(error));
+
+    fetch(`http://localhost:5000/api/wallet`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        "Cache-Control": "no-store",
+      },
+    })
+      .then((res) => res.json())
+      .then((amount) => {
+        setWallet(amount.balance);
       })
       .catch((error) => console.log(error));
   }, [token]);
@@ -68,7 +82,7 @@ function Profile() {
           {/*Suure kasti parem pool*/}
           <div className="profile_box_content_box">
             <div className="k">
-              <p>Statistics jms?</p>
+              <p>Žetoonid: {wallet}</p>
               {/*<p>Omatud kaste:</p>*/}
               {/*<p>Avatud kaste:</p>*/}
             </div>

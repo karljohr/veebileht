@@ -292,7 +292,7 @@ app.post("/api/prize", async (req, res) => {
   }
 });
 
-app.post("/api/update-inventory", auth, async (req, res) => {
+app.post("/api/update-inventory", auth, async (req) => {
   const userId = req.user.userId;
   let { boxh, boxm, boxe, boxl } = req.body;
   if (!boxh) boxh = 0;
@@ -320,6 +320,66 @@ app.get("/inventories", async (req, res) => {
     console.error(error);
   }
 });
+
+// Kasutaja žetoonide hulga näitamine.
+app.get("/api/wallet", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const amount = await pool.query(
+    "SELECT balance FROM wallets WHERE userid = $1",
+    [userId],
+  );
+  res.json(amount.rows[0]);
+});
+
+// Žetoonide lisamine
+app.post("/api/wallet/increase", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { amount, reason } = req.body;
+  const increase = await pool.query();
+  try {
+    await increase.query("BEGIN");
+    await increase.query(
+      "UPDATE wallets SET balance = balance + $1 WHERE userid = $2",
+      [amount, userId],
+    );
+    await increase.query(
+      "INSERT INTO transactions(userid, amount, reason) VALUES ($1, $2, $3)",
+      [userId, amount, reason],
+    );
+    await increase.query("COMMIT");
+    res.status(200).json({ message: "Transaction successful" });
+  } catch (e) {
+    await increase.query("ROLLBACK");
+    console.error(e);
+    res.status(500).json({ error: "Transaction failed." });
+  } finally {
+    increase.release();
+  }
+});
+
+// Žetoonide eemaldamine
+app.post("/api/wallet/deduct", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { amount, reason } = req.body;
+  const deduct = await pool.query();
+  try {
+    await deduct.query("BEGIN");
+    await deduct.query(
+      "UPDATE wallets SET balance = balance - $1 WHERE userid = $2",
+      [amount, userId],
+    );
+    await deduct.query(
+      "INSERT INTO transactions(userid, amount, reason) VALUES ($1, $2, $3)",
+      [userId, amount, reason],
+    );
+    await deduct.query("COMMIT");
+    res.status(200).json({ message: "Transaction successful" });
+  } catch (e) {
+    await deduct.query("ROLLBACK");
+    console.error(e);
+    res.status(500).json({ error: "Transaction failed." });
+  } finally {
+    deduct.release();
 
 app.post("/api/cart/add", auth, async (req, res) => {
   const userId = req.user.userId;
@@ -429,7 +489,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.error(err.stack);
   res
     .status(500)
