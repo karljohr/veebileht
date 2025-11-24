@@ -380,6 +380,8 @@ app.post("/api/wallet/deduct", auth, async (req, res) => {
     res.status(500).json({ error: "Transaction failed." });
   } finally {
     deduct.release();
+  }
+});
 
 app.post("/api/cart/add", auth, async (req, res) => {
   const userId = req.user.userId;
@@ -391,13 +393,16 @@ app.post("/api/cart/add", auth, async (req, res) => {
 
   try {
     // Leia või loo kasutajale aktiivne cartID
-    let cartResult = await pool.query("SELECT cartid FROM cart WHERE userid = $1", [userId]);
+    let cartResult = await pool.query(
+      "SELECT cartid FROM cart WHERE userid = $1",
+      [userId],
+    );
     let cartId;
 
     if (cartResult.rows.length === 0) {
       const newCart = await pool.query(
         "INSERT INTO cart (userid) VALUES ($1) RETURNING cartid",
-        [userId]
+        [userId],
       );
       cartId = newCart.rows[0].cartid;
     } else {
@@ -407,7 +412,7 @@ app.post("/api/cart/add", auth, async (req, res) => {
     // Kontrolli, kas toode juba ostukorvis olemas
     const itemResult = await pool.query(
       "SELECT cartitemid, quantity FROM cart_items WHERE cartid = $1 AND productid = $2",
-      [cartId, productID]
+      [cartId, productID],
     );
 
     if (itemResult.rows.length > 0) {
@@ -416,18 +421,18 @@ app.post("/api/cart/add", auth, async (req, res) => {
 
       await pool.query(
         "UPDATE cart_items SET quantity = $1 WHERE cartitemid = $2",
-        [newQuantity, itemResult.rows[0].cartitemid]
+        [newQuantity, itemResult.rows[0].cartitemid],
       );
     } else {
       await pool.query(
         "INSERT INTO cart_items (cartid, productid, quantity) VALUES ($1, $2, $3)",
-        [cartId, productID, quantity]
+        [cartId, productID, quantity],
       );
     }
 
     const updatedTotal = await pool.query(
       "SELECT SUM(quantity) AS total_items FROM cart_items WHERE cartid = $1",
-      [cartId]
+      [cartId],
     );
 
     res.status(201).json({
@@ -444,10 +449,15 @@ app.get("/api/cart", auth, async (req, res) => {
   const userId = req.user.userId;
 
   try {
-    const cartResult = await pool.query("SELECT cartid FROM cart WHERE userid = $1", [userId]);
+    const cartResult = await pool.query(
+      "SELECT cartid FROM cart WHERE userid = $1",
+      [userId],
+    );
 
     if (cartResult.rows.length === 0) {
-      return res.status(200).json({ items: [], totalMinPrice: 0, totalMaxPrice: 0 });
+      return res
+        .status(200)
+        .json({ items: [], totalMinPrice: 0, totalMaxPrice: 0 });
     }
 
     const cartId = cartResult.rows[0].cartid;
@@ -468,9 +478,9 @@ app.get("/api/cart", auth, async (req, res) => {
     let totalMinPrice = 0;
     let totalMaxPrice = 0;
 
-    items.forEach(item => {
-        totalMinPrice += parseFloat(item.min_price) * item.quantity;
-        totalMaxPrice += parseFloat(item.max_price) * item.quantity;
+    items.forEach((item) => {
+      totalMinPrice += parseFloat(item.min_price) * item.quantity;
+      totalMaxPrice += parseFloat(item.max_price) * item.quantity;
     });
 
     res.status(200).json({
