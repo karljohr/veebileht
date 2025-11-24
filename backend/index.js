@@ -494,6 +494,91 @@ app.get("/api/cart", auth, async (req, res) => {
   }
 });
 
+app.get("/admin", auth, async (req, res) => {
+  const userId = req.user.userId;
+  if (userId === 13) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+});
+
+app.get("/api/info", async (req, res) => {
+  try {
+    const prizes = await pool.query("SELECT boxtype, prize FROM prizes");
+    res.json(prizes.rows);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+app.post("/api/add-box", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { boxtype, prize } = req.body;
+  if (userId === 13) {
+    await pool.query("INSERT INTO prizes (boxtype, prize) VALUES ($1, $2)", [
+      boxtype,
+      prize,
+    ]);
+    res.status(201).json({ message: "Prize added successfully" });
+  } else {
+    res.status(403).json({ message: "Unauthorized" });
+  }
+});
+
+app.post("/api/delete-box", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { boxtype, prize } = req.body;
+  if (userId === 13) {
+    await pool.query("DELETE FROM prizes WHERE prize=$1 AND boxtype=$2", [
+      prize,
+      boxtype,
+    ]);
+    res.status(201).json({ message: "Prize deleted successfully" });
+  } else {
+    res.status(403).json({ message: "Unauthorized" });
+  }
+});
+
+app.get("/api/dayproduct", async (req, res) => {
+  try {
+    const data = await pool.query(
+      "SELECT * FROM dayproduct WHERE activated=true",
+    );
+    const { name, description, startprice, endprice, activated, picture } =
+      data.rows[0];
+    const time = new Date();
+    const step = Math.floor((startprice - endprice) / 24);
+    let price;
+    if (time.getHours() < 24) {
+      price = startprice - step * time.getHours();
+    } else {
+      price = endprice;
+    }
+    res.json({
+      name,
+      description,
+      price,
+      startprice,
+      endprice,
+      activated,
+      picture,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+app.get("/api/dayproducts", async (req, res) => {
+  try {
+    const data = await pool.query("SELECT * FROM dayproduct");
+    console.log(data.rows);
+    res.json(data.rows);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // Käivitame serveri.
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
