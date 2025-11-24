@@ -5,24 +5,82 @@ import ProfileButton from "../components/ProfileButton.jsx";
 function Admin() {
   const [prizes, setPrizes] = useState([]);
   const [prizePage, setPrizePage] = useState(1);
-  const [isFlipped, setisFlipped] = useState(false);
-  const [chosenBox, setChosenBox] = useState("");
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [chosenBox, setChosenBox] = useState(1);
+  const [chosenPrize, setChosenPrize] = useState("");
+  const token = localStorage.getItem("token");
+
+  const fetchPrizes = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/info");
+      const data = await res.json();
+      setPrizes(data);
+    } catch (error) {
+      console.error("Error fetching prizes", error);
+    }
+  };
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/info")
-      .then((res) => res.json())
-      .then((prizes) => setPrizes(prizes));
-  });
+    fetchPrizes();
+  }, []);
 
   const getPrizesByBox = (box) => {
     return prizes.filter((prize) => prize.boxtype === box);
   };
 
-  const cardFlip = () => setisFlipped(!isFlipped);
+  const cardFlip = (event) => {
+    if (isFlipped) {
+      addBox(event);
+    } else {
+      setIsFlipped(!isFlipped);
+    }
+  };
 
-  function addBox() {
+  const addBox = async (event) => {
+    event.preventDefault();
     // Add the submited box to the database
-  }
+    try {
+      const response = await fetch("http://localhost:5000/api/add-box", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ boxtype: chosenBox, prize: chosenPrize }),
+      });
+
+      if (!response.ok) throw new Error("Failed to add prize");
+
+      await fetchPrizes();
+
+      setIsFlipped(false);
+      setChosenBox(1);
+      setChosenPrize("");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleDelete = async (prize, event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:5000/api/delete-box", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ boxtype: prize.boxtype, prize: prize.prize }),
+      });
+
+      if (!response.ok) throw new Error("Failed to delete");
+
+      await fetchPrizes();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const prizeTitles = {
     1: "Haruldane saagikast",
@@ -40,7 +98,11 @@ function Admin() {
           {!isFlipped && (
             <ul>
               {getPrizesByBox(prizePage).map((prize, index) => (
-                <li className="admin_li" key={index}>
+                <li
+                  className="admin_li"
+                  key={index}
+                  onClick={(event) => handleDelete(prize, event)}
+                >
                   {prize.prize}
                 </li>
               ))}
@@ -48,28 +110,33 @@ function Admin() {
           )}
           {isFlipped && (
             <div className="flipped_sheet">
-              <form onSubmit={addBox} className="admin_box_form">
-                <select name="boxes" required className="admin_select">
-                  <option className="admin_option" value="hs">
+              <form onSubmit={addBox} className="admin_box_form" id="myForm">
+                <select
+                  name="boxes"
+                  required
+                  className="admin_select"
+                  value={chosenBox}
+                  onChange={(event) => setChosenBox(event.target.value)}
+                >
+                  <option className="admin_option" value={1}>
                     {prizeTitles[1]}
                   </option>
-                  <option className="admin_option" value="ms">
+                  <option className="admin_option" value={2}>
                     {prizeTitles[2]}
                   </option>
-                  <option className="admin_option" value="es">
+                  <option className="admin_option" value={3}>
                     {prizeTitles[3]}
                   </option>
-                  <option className="admin_option" value="ls">
+                  <option className="admin_option" value={4}>
                     {prizeTitles[4]}
                   </option>
                 </select>
                 <input
                   type="text"
                   className="admin_select"
-                  placeholder="Prize"
+                  placeholder="Auhind"
                   required
-                  onChange={() => setChosenBox(e.target.value)}
-                  value={chosenBox}
+                  onChange={(event) => setChosenPrize(event.target.value)}
                 />
               </form>
             </div>
@@ -79,7 +146,6 @@ function Admin() {
           <button
             className="admin_button"
             onClick={() => {
-              console.log("clicked");
               if (prizePage > 1) {
                 setPrizePage(prizePage - 1);
               }
@@ -97,7 +163,6 @@ function Admin() {
           <button
             className="admin_button"
             onClick={() => {
-              console.log("clicked");
               if (prizePage < 4) {
                 setPrizePage(prizePage + 1);
               }

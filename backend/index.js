@@ -339,6 +339,34 @@ app.get("/api/info", async (req, res) => {
   }
 });
 
+app.post("/api/add-box", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { boxtype, prize } = req.body;
+  if (userId === 13) {
+    await pool.query("INSERT INTO prizes (boxtype, prize) VALUES ($1, $2)", [
+      boxtype,
+      prize,
+    ]);
+    res.status(201).json({ message: "Prize added successfully" });
+  } else {
+    res.status(403).json({ message: "Unauthorized" });
+  }
+});
+
+app.post("/api/delete-box", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { boxtype, prize } = req.body;
+  if (userId === 13) {
+    await pool.query("DELETE FROM prizes WHERE prize=$1 AND boxtype=$2", [
+      prize,
+      boxtype,
+    ]);
+    res.status(201).json({ message: "Prize deleted successfully" });
+  } else {
+    res.status(403).json({ message: "Unauthorized" });
+  }
+});
+
 // Käivitame serveri.
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
