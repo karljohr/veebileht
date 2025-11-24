@@ -10,6 +10,8 @@ function Profile() {
   const [wallet, setWallet] = useState("");
   const token = localStorage.getItem("token");
 
+  localStorage.setItem("wallet", wallet);
+
   useEffect(() => {
     if (!token) return;
 
@@ -82,7 +84,7 @@ function Profile() {
           {/*Suure kasti parem pool*/}
           <div className="profile_box_content_box">
             <div className="k">
-              <p>Žetoonid: {wallet}</p>
+              <p>Omatud žetoonid: {wallet} ❂</p>
               {/*<p>Omatud kaste:</p>*/}
               {/*<p>Avatud kaste:</p>*/}
             </div>

@@ -335,25 +335,25 @@ app.get("/api/wallet", auth, async (req, res) => {
 app.post("/api/wallet/increase", auth, async (req, res) => {
   const userId = req.user.userId;
   const { amount, reason } = req.body;
-  const increase = await pool.query();
+  const client = await pool.connect();
   try {
-    await increase.query("BEGIN");
-    await increase.query(
+    await client.query("BEGIN");
+    await client.query(
       "UPDATE wallets SET balance = balance + $1 WHERE userid = $2",
       [amount, userId],
     );
-    await increase.query(
+    await client.query(
       "INSERT INTO transactions(userid, amount, reason) VALUES ($1, $2, $3)",
       [userId, amount, reason],
     );
-    await increase.query("COMMIT");
+    await client.query("COMMIT");
     res.status(200).json({ message: "Transaction successful" });
   } catch (e) {
-    await increase.query("ROLLBACK");
+    await client.query("ROLLBACK");
     console.error(e);
     res.status(500).json({ error: "Transaction failed." });
   } finally {
-    increase.release();
+    client.release();
   }
 });
 
@@ -361,25 +361,25 @@ app.post("/api/wallet/increase", auth, async (req, res) => {
 app.post("/api/wallet/deduct", auth, async (req, res) => {
   const userId = req.user.userId;
   const { amount, reason } = req.body;
-  const deduct = await pool.query();
+  const client = await pool.connect();
   try {
-    await deduct.query("BEGIN");
-    await deduct.query(
+    await client.query("BEGIN");
+    await client.query(
       "UPDATE wallets SET balance = balance - $1 WHERE userid = $2",
       [amount, userId],
     );
-    await deduct.query(
+    await client.query(
       "INSERT INTO transactions(userid, amount, reason) VALUES ($1, $2, $3)",
       [userId, amount, reason],
     );
-    await deduct.query("COMMIT");
+    await client.query("COMMIT");
     res.status(200).json({ message: "Transaction successful" });
   } catch (e) {
-    await deduct.query("ROLLBACK");
+    await client.query("ROLLBACK");
     console.error(e);
     res.status(500).json({ error: "Transaction failed." });
   } finally {
-    deduct.release();
+    client.release();
   }
 });
 
@@ -462,7 +462,7 @@ app.get("/api/cart", auth, async (req, res) => {
 
     const cartId = cartResult.rows[0].cartid;
 
-    // Ostukorvi esemete saamisne
+    // Ostukorvi esemete saamine
     const itemsQuery = `
       SELECT 
         ci.cartitemid, ci.productid, ci.quantity, 

@@ -18,20 +18,17 @@ function Catalogue() {
     }
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/cart/add`,
-        {
-          method: 'POST', // Meetod peab olema POST
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            productID: productID,
-            quantity: 1
-          })
-        }
-      );
+      const response = await fetch(`${API_URL}/api/cart/add`, {
+        method: "POST", // Meetod peab olema POST
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          productID: productID,
+          quantity: 1,
+        }),
+      });
 
       if (!response.ok) {
         let errorMessage = "Viga kasti lisamisel.";
@@ -43,7 +40,6 @@ function Catalogue() {
         }
         throw new Error(errorMessage);
       }
-
     } catch (error) {
       console.error("Viga kasti lisamisel:", error.message);
       alert(error.message);
@@ -78,7 +74,7 @@ function Catalogue() {
             productID={1}
             image="/karp.png"
             nimi="Haruldane saagikast"
-            hind="5 - 10 €"
+            hind="5 - 10 ❂"
             prizes={[
               "Käsitööšokolaad",
               "Kõrgekvaliteediline teevalik",
@@ -104,7 +100,7 @@ function Catalogue() {
             productID={2}
             image="/karp.png"
             nimi="Müstiline saagikast"
-            hind="10 - 25 €"
+            hind="10 - 25 ❂"
             prizes={[
               "Lõhnaküünal",
               "Nahkne kaarditasku",
@@ -131,7 +127,7 @@ function Catalogue() {
             productID={3}
             image="/karp.png"
             nimi="Eepiline saagikast"
-            hind="25 - 50 €"
+            hind="25 - 50 ❂"
             prizes={[
               "Kaasaskantav bluetooth kõlar",
               "Nutika kodu juhtpult",
@@ -158,7 +154,7 @@ function Catalogue() {
             productID={4}
             image="/karp.png"
             nimi="Legendaarne saagikast"
-            hind="50 - 100 €"
+            hind="50 - 100 ❂"
             prizes={[
               "Nutikell",
               "NFT sertifikaat",

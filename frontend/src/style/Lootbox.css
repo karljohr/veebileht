@@ -17,6 +17,7 @@
   );
   transform: skewX(-25deg);
   transition: all 0.6s ease;
+  pointer-events: none;
 }
 
 .card-front:hover::before {

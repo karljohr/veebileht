@@ -1,17 +1,42 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../style/Payment.css";
 
 function Payment() {
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const totalMax = Number(localStorage.getItem("totalMax"));
+  const wallet = Number(localStorage.getItem("wallet"));
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
-  const handlePayment = (e) => {
+  const deductChips = async (amount, reason) => {
+    const res = await fetch(`http://localhost:5000/api/wallet/deduct`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ amount, reason }),
+    });
+    if (!res.ok) throw new Error("Chip deduction failed");
+    return await res.json();
+  };
+
+  const handlePayment = async (e) => {
     e.preventDefault();
-
-    if (paymentMethod === "card") {
-      // Siia tuleb kood kaardimakse käivitamiseks
-    } else if (paymentMethod === "paypal") {
-      // Siia tuleb kood PayPali suunamiseks
+    try {
+      if (paymentMethod === "chips") {
+        if (wallet < totalMax) return;
+        await deductChips(totalMax, "Lootbox purchase");
+        navigate("/payment/confirmation");
+      } else if (paymentMethod === "card") {
+        navigate("/payment/confirmation");
+      } else if (paymentMethod === "paypal") {
+        navigate("/payment/confirmation");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Makse ebaõnnestus");
     }
   };
 
@@ -60,6 +85,19 @@ function Payment() {
     </p>
   );
 
+  const ChipsInfo = () => {
+    if (wallet < totalMax) {
+      return <p>Teil pole ostu sooritamiseks piisavalt žetoone!</p>;
+    } else {
+      return (
+        <div>
+          <p>Kindel, et soovite ostu sooritada?</p>
+          <p>Teil on hetkel {wallet} žetooni.</p>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="page-container">
       <div className="payment-frame">
@@ -72,17 +110,40 @@ function Payment() {
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
           >
+            <option value="chips">❂ Žetoonid</option>
             <option value="card">💳 Pangakaart</option>
             <option value="paypal">🅿️ PayPal</option>
           </select>
         </div>
 
-        {paymentMethod === "card" && <CardFields />}
-        {paymentMethod === "paypal" && <PayPalInfo />}
-
-        <button className="pay-button" onClick={handlePayment}>
-          <Link to="/payment/confirmation">Maksa kohe</Link>
-        </button>
+        {paymentMethod === "chips" && (
+          <>
+            <ChipsInfo />
+            <button
+              className="pay-button"
+              onClick={handlePayment}
+              disabled={wallet < totalMax}
+            >
+              Maksa kohe
+            </button>
+          </>
+        )}
+        {paymentMethod === "card" && (
+          <>
+            <CardFields />
+            <button className="pay-button" onClick={handlePayment}>
+              Maksa kohe
+            </button>
+          </>
+        )}
+        {paymentMethod === "paypal" && (
+          <>
+            <PayPalInfo />
+            <button className="pay-button" onClick={handlePayment}>
+              Maksa kohe
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
