@@ -1,5 +1,4 @@
 .admin_content {
-    border:2px solid red;
     display: grid;
     grid-template-columns: repeat(auto-fit, 25rem);
     gap: 2rem;
@@ -60,6 +59,8 @@
     overflow-y: scroll;
     transition: transform 0.5s;
     transform-style: preserve-3d;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .scroll_box.flipped {
