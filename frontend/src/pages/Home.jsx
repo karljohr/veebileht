@@ -34,11 +34,7 @@ function Home({ setNavbarOpen }) {
       <div className="right-side">
         <div className="home_side">
           <div className="center-box">
-            <img
-              src="../../public/karp.png"
-              alt="Saagikast"
-              className="big-img"
-            />
+            <img src="/karp.png" alt="Saagikast" className="big-img" />
           </div>
           <Link to="/catalogue">
             <button className="catalogue-button">Saagikastid</button>
