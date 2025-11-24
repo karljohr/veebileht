@@ -15,6 +15,8 @@ function ProfileButton({
   var hbcolor;
   if (bcolor === "rgb(255, 255, 255)") {
     hbcolor = "rgb(225, 225, 225)";
+  } else if (bcolor === "rgb(111,0,19)") {
+    hbcolor = "rgb(202,0,33)";
   } else {
     hbcolor = "rgb(40, 40, 40)";
   }

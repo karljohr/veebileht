@@ -11,6 +11,7 @@ function DailyProduct() {
     description: "data.description",
     price: 0,
     startPrice: 0,
+    picture: "",
   });
 
   useEffect(() => {
@@ -22,6 +23,7 @@ function DailyProduct() {
           description: data.description,
           price: data.price,
           startPrice: data.startprice,
+          picture: data.picture,
         });
       })
       .catch((error) => {
@@ -59,7 +61,7 @@ function DailyProduct() {
         <div className="product-card">
           {/*<div className="sold-tag">Müüdud</div>*/}
           <img
-            src="../../public/energy-drink.jpg"
+            src={`/${product.picture}.jpg`}
             alt="Product image"
             className="product-image"
           />

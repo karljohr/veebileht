@@ -545,16 +545,35 @@ app.get("/api/dayproduct", async (req, res) => {
     const data = await pool.query(
       "SELECT * FROM dayproduct WHERE activated=true",
     );
-    const { name, description, startprice, endprice, activated } = data.rows[0];
+    const { name, description, startprice, endprice, activated, picture } =
+      data.rows[0];
     const time = new Date();
-    const step = Math.floor(startprice / 24);
+    const step = Math.floor((startprice - endprice) / 24);
     let price;
     if (time.getHours() < 24) {
       price = startprice - step * time.getHours();
     } else {
       price = endprice;
     }
-    res.json({ name, description, price, startprice });
+    res.json({
+      name,
+      description,
+      price,
+      startprice,
+      endprice,
+      activated,
+      picture,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+app.get("/api/dayproducts", async (req, res) => {
+  try {
+    const data = await pool.query("SELECT * FROM dayproduct");
+    console.log(data.rows);
+    res.json(data.rows);
   } catch (error) {
     console.error(error);
   }
