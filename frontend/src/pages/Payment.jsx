@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/Payment.css";
+import { clearCartExternal } from "./ShoppingCart.jsx";
 
 function Payment() {
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [paymentMethod, setPaymentMethod] = useState("chips");
   const totalMax = Number(localStorage.getItem("totalMax"));
   const wallet = Number(localStorage.getItem("wallet"));
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-  const deductChips = async (amount, reason) => {
-    const res = await fetch(`http://localhost:5000/api/wallet/deduct`, {
+  const lootboxPurchase = async (amount, reason) => {
+    const res = await fetch(`http://localhost:5000/api/lootbox-purchase`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -18,7 +19,7 @@ function Payment() {
       },
       body: JSON.stringify({ amount, reason }),
     });
-    if (!res.ok) throw new Error("Chip deduction failed");
+    if (!res.ok) throw new Error("Purchase failed");
     return await res.json();
   };
 
@@ -27,8 +28,9 @@ function Payment() {
     try {
       if (paymentMethod === "chips") {
         if (wallet < totalMax) return;
-        await deductChips(totalMax, "Lootbox purchase");
+        await lootboxPurchase(totalMax, "Lootbox purchase");
         navigate("/payment/confirmation");
+        await clearCartExternal();
       } else if (paymentMethod === "card") {
         navigate("/payment/confirmation");
       } else if (paymentMethod === "paypal") {

@@ -7,11 +7,12 @@
   align-items: center;
 }
 
-.palm-left, .palm-right {
-    display: flex;
-    top: 6rem;
-    position: absolute;
-    width: 45vw;
+.palm-left,
+.palm-right {
+  display: flex;
+  top: 6rem;
+  position: absolute;
+  width: 45vw;
 }
 
 .palm-right {
@@ -124,6 +125,7 @@
   color: #555;
   font-weight: bold;
   width: 50px;
+  white-space: nowrap;
 }
 
 .buy-button {
@@ -158,8 +160,9 @@
 }
 
 @media (max-width: 1200px) {
-  .palm-right, .palm-left {
-      opacity: 0;
+  .palm-right,
+  .palm-left {
+    opacity: 0;
   }
 }
 
