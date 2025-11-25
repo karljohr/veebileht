@@ -44,6 +44,7 @@ Projektis on hetkel olemas:
 - Unustatud salasõna asendamise avaleht
 - Ostukorvi alamleht
 - Omatud saagikastide alamleht
+- Administraatori alamleht.
 
 
 Projektis on hetkel funktsionaalne:
@@ -56,21 +57,23 @@ Projektis on hetkel funktsionaalne:
   - Sisselogimise alamlehel "Loo kasutaja" tekstiviide viib konto loomise alamlehele.
   - "Logi Sisse", "Loo Kasutaja" ja "Maksa kohe" nupud viivad vastavale kinnituse alamlehele.
   - Sisselogimise alamlehel "Unustasid salasõna?" tekstiviide viib parooli muutmise alamlehele.
-- Päevatoote alamlehe nuppude frontend funktsionaalsus.
-- Tootekataloogi alamlehe nuppude frontend funktsionaalsus.
+- Päevatoote alamlehe funktsionaalsus.
+- Tootekataloogi alamlehe funktsionaalsus.
 - Veebilehe andmebaas.
 - Kasutaja loomine.
-- Kasutaja andmete muutmine esialgsel kujul.
-- Kasutaja unustatud parooli korral uue parooli loomine esialgsel kujul.
-- Omatud saagikastide alamlehel saab näha ja avada enda saagikaste.
+- Kasutaja andmete muutmine.
+- Kasutaja unustatud parooli korral uue parooli loomine.
+- Omatud saagikastide alamlehel kasutaja saagikastide nägemine ja avamine.
+- Ostukorvi alamlehe funktsionaalsus.
+- Navigeerimine iga lehekülje vahel.
+- Administraatori alamlehe funktsionaalsus.
 
 ## Projekti tulevik
 
 Projekti on tulevikus veel lisandumas:
 
-- Ostukorvi alamlehe backend osa
-- Navigeerimine iga lehekülje vahel
-- Kasutaja loomise ning andmete muutmise täiustatud funktsionaalsus
+- Zetoonide juurde teenimise võimalus.
+- Profiili alamlehe statistika lahter.
 
 ## Kasutatud tehnoloogiad ja raamistikud
 - React (versioon 19.2.0)
