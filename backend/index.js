@@ -383,6 +383,76 @@ app.post("/api/wallet/deduct", auth, async (req, res) => {
   }
 });
 
+// Saagikastide ostu sooritamine
+app.post("/api/lootbox-purchase", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { amount, reason } = req.body;
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    await client.query(
+      "UPDATE wallets SET balance = balance - $1 WHERE userid = $2",
+      [amount, userId],
+    );
+    await client.query(
+      "INSERT INTO transactions(userid, amount, reason) VALUES ($1, $2, $3)",
+      [userId, amount, reason],
+    );
+    await client.query(
+      "INSERT INTO lootbox_transactions (userid, boxh, boxm, boxe, boxl) VALUES ($1, (SELECT COALESCE(SUM(quantity), 0) FROM cart_items WHERE cartid = (SELECT cartid FROM cart WHERE userid = $1) AND productid = 1), (SELECT COALESCE(SUM(quantity), 0) FROM cart_items WHERE cartid = (SELECT cartid FROM cart WHERE userid = $1) AND productid = 2), (SELECT COALESCE(SUM(quantity), 0) FROM cart_items WHERE cartid = (SELECT cartid FROM cart WHERE userid = $1) AND productid = 3), (SELECT COALESCE(SUM(quantity), 0) FROM cart_items WHERE cartid = (SELECT cartid FROM cart WHERE userid = $1) AND productid = 4))",
+      [userId],
+    );
+    await client.query(
+      "UPDATE userinventory u SET boxh = u.boxh + l.boxh, boxm = u.boxm + l.boxm, boxe = u.boxe + l.boxe, boxl = u.boxl + l.boxl FROM lootbox_transactions l WHERE u.userid = $1 AND l.userid = $1",
+      [userId],
+    );
+    await client.query("DELETE FROM lootbox_transactions WHERE userid = $1", [
+      userId,
+    ]);
+    await client.query("COMMIT");
+    res.status(200).json({ message: "Transaction successful" });
+  } catch (e) {
+    await client.query("ROLLBACK");
+    console.error(e);
+    res.status(500).json({ error: "Transaction failed." });
+  } finally {
+    client.release();
+  }
+});
+
+// Päevatoote ostu sooritamine
+app.post("/api/dayproduct-purchase", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { amount, reason } = req.body;
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    await client.query(
+      "UPDATE wallets SET balance = balance - $1 WHERE userid = $2",
+      [amount, userId],
+    );
+    await client.query(
+      "INSERT INTO transactions(userid, amount, reason) VALUES ($1, $2, $3)",
+      [userId, amount, reason],
+    );
+    await client.query(
+      "UPDATE userinventory SET dailyproduct = (SELECT name FROM dayproduct WHERE activated = true) WHERE userid = $1",
+      [userId],
+    );
+    await client.query(
+      "UPDATE dayproduct SET sold = true WHERE activated = true",
+    );
+    await client.query("COMMIT");
+    res.status(200).json({ message: "Transaction successful" });
+  } catch (e) {
+    await client.query("ROLLBACK");
+    console.error(e);
+    res.status(500).json({ error: "Transaction failed." });
+  } finally {
+    client.release();
+  }
+});
+
 app.post("/api/cart/add", auth, async (req, res) => {
   const userId = req.user.userId;
   const { productID, quantity } = req.body;
@@ -546,8 +616,18 @@ app.get("/api/dayproduct", async (req, res) => {
     const data = await pool.query(
       "SELECT * FROM dayproduct WHERE activated=true",
     );
-    const { name, description, startprice, endprice, activated, picture } =
-      data.rows[0];
+    if (data.rows.length === 0) {
+      return res.status(404).json({ message: "No active daily product found" });
+    }
+    const {
+      name,
+      description,
+      startprice,
+      endprice,
+      activated,
+      picture,
+      sold,
+    } = data.rows[0];
     const time = new Date();
     const step = Math.floor((startprice - endprice) / 24);
     let price;
@@ -564,6 +644,7 @@ app.get("/api/dayproduct", async (req, res) => {
       endprice,
       activated,
       picture,
+      sold,
     });
   } catch (error) {
     console.error(error);
@@ -584,9 +665,14 @@ app.delete("/api/cart/clear", auth, async (req, res) => {
   const userId = req.user.userId;
 
   try {
-    const cartResult = await pool.query("SELECT cartid FROM cart WHERE userid = $1", [userId]);
+    const cartResult = await pool.query(
+      "SELECT cartid FROM cart WHERE userid = $1",
+      [userId],
+    );
     if (cartResult.rows.length === 0) {
-      return res.status(200).json({ message: "Ostukorvi ei leitud/on juba tühi." });
+      return res
+        .status(200)
+        .json({ message: "Ostukorvi ei leitud/on juba tühi." });
     }
     const cartId = cartResult.rows[0].cartid;
 
@@ -605,7 +691,10 @@ app.post("/api/cart/add_one", auth, async (req, res) => {
   const { cartItemId } = req.body;
 
   try {
-    const cartResult = await pool.query("SELECT cartid FROM cart WHERE userid = $1", [userId]);
+    const cartResult = await pool.query(
+      "SELECT cartid FROM cart WHERE userid = $1",
+      [userId],
+    );
     if (cartResult.rows.length === 0) {
       return res.status(404).json({ message: "Ostukorvi ei leitud." });
     }
@@ -613,15 +702,17 @@ app.post("/api/cart/add_one", auth, async (req, res) => {
 
     const updateResult = await pool.query(
       "UPDATE cart_items SET quantity = quantity + 1 WHERE cartitemid = $1 AND cartid = $2 RETURNING quantity",
-      [cartItemId, cartId]
+      [cartItemId, cartId],
     );
 
     if (updateResult.rows.length === 0) {
-        return res.status(404).json({ message: "Eset ei leitud ostukorvist." });
+      return res.status(404).json({ message: "Eset ei leitud ostukorvist." });
     }
 
-    return res.status(200).json({ message: "Kogust suurendati.", newQuantity: updateResult.rows[0].quantity });
-
+    return res.status(200).json({
+      message: "Kogust suurendati.",
+      newQuantity: updateResult.rows[0].quantity,
+    });
   } catch (err) {
     console.error("Viga eseme koguse suurendamisel:", err);
     res.status(500).json({ error: "Server error eseme koguse suurendamisel." });
@@ -642,11 +733,13 @@ app.post("/api/cart/remove", auth, async (req, res) => {
        FROM cart_items ci
        JOIN cart c ON ci.cartid = c.cartid
        WHERE ci.cartitemid = $1 AND c.userid = $2`,
-      [cartItemId, userId]
+      [cartItemId, userId],
     );
 
     if (itemResult.rows.length === 0) {
-      return res.status(404).json({ message: "Eset ei leitud ostukorvist või see ei kuulu sinule." });
+      return res.status(404).json({
+        message: "Eset ei leitud ostukorvist või see ei kuulu sinule.",
+      });
     }
 
     const currentQuantity = itemResult.rows[0].quantity;
@@ -654,17 +747,20 @@ app.post("/api/cart/remove", auth, async (req, res) => {
     if (currentQuantity > 1) {
       await pool.query(
         "UPDATE cart_items SET quantity = quantity - 1 WHERE cartitemid = $1",
-        [cartItemId]
+        [cartItemId],
       );
       return res.status(200).json({ message: "Eseme kogust vähendati." });
     } else {
-      await pool.query("DELETE FROM cart_items WHERE cartitemid = $1", [cartItemId]);
+      await pool.query("DELETE FROM cart_items WHERE cartitemid = $1", [
+        cartItemId,
+      ]);
       return res.status(200).json({ message: "Ese eemaldati ostukorvist." });
     }
-
   } catch (err) {
     console.error("Viga eseme eemaldamisel/vähendamisel:", err);
-    res.status(500).json({ error: "Server error eseme eemaldamisel/vähendamisel." });
+    res
+      .status(500)
+      .json({ error: "Server error eseme eemaldamisel/vähendamisel." });
   }
 });
 

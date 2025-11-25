@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../style/DailyProduct.css";
 import InfoOverlay from "../components/InfoOverlay";
 
 function DailyProduct() {
   const [openId, setOpenId] = useState(null);
   const toggle = (id) => setOpenId(openId === id ? null : id);
+  const wallet = Number(localStorage.getItem("wallet"));
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const [product, setProduct] = useState({
     name: "data.name",
     description: "data.description",
     price: 0,
     startPrice: 0,
     picture: "",
+    sold: false,
   });
 
   useEffect(() => {
@@ -24,12 +28,38 @@ function DailyProduct() {
           price: data.price,
           startPrice: data.startprice,
           picture: data.picture,
+          sold: data.sold,
         });
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  const dailyProductPurchase = async (amount, reason) => {
+    const res = await fetch("http://localhost:5000/api/dayproduct-purchase", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ amount, reason }),
+    });
+    if (!res.ok) throw new Error("Purchase failed");
+    return await res.json();
+  };
+
+  const handlePayment = async (e) => {
+    e.preventDefault();
+    try {
+      if (wallet < product.price || product.sold === true) return;
+      await dailyProductPurchase(product.price, "Daily Product purchase");
+      navigate("/payment/confirmation");
+    } catch (e) {
+      console.error(e);
+      alert("Purchase failed");
+    }
+  };
 
   return (
     <div className="daily-product-container">
@@ -59,7 +89,9 @@ function DailyProduct() {
           <h2 className="subtitle">{product.name}</h2>
         </div>
         <div className="product-card">
-          {/*<div className="sold-tag">Müüdud</div>*/}
+          <div className="sold-tag" hidden={product.sold !== true}>
+            Müüdud
+          </div>
           <img
             src={`/${product.picture}.jpg`}
             alt="Product image"
@@ -70,11 +102,11 @@ function DailyProduct() {
         <p className="product-description">{product.description}</p>
 
         <p className="current-price-text">
-          Praegune hind: <span className="price-value">{product.price} €</span>
+          Praegune hind: <span className="price-value">{product.price} ❂</span>
         </p>
 
         <div className="price-slider-area">
-          <span className="min-value">{product.startPrice} €</span>
+          <span className="min-value">{product.startPrice} ❂</span>
           <input
             type="range"
             min="1"
@@ -84,12 +116,15 @@ function DailyProduct() {
             disabled
             style={{ direction: "rtl" }}
           />
-          <span className="max-value">? €</span>
+          <span className="max-value">? ❂</span>
         </div>
-
-        <Link to="/payment">
-          <button className="buy-button">Osta kohe</button>
-        </Link>
+        <button
+          className="buy-button"
+          onClick={handlePayment}
+          disabled={wallet < product.price || product.sold === true}
+        >
+          Osta kohe
+        </button>
       </div>
       <div className="bottom">
         <p className="bottom-text">© Tiim Veebipingviinid 2025</p>
