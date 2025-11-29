@@ -1,0 +1,34 @@
+:root {
+  --width: fit-content;
+  --height: fit-content;
+  --bgcolor: white;
+  --hbgcolor: gray;
+  --tcolor: #636363;
+  --htcolor: white;
+  --fsize: clamp(0.8rem, 1vw, 16px);
+  --bradius: 10px;
+  --border: 2px solid gray;
+}
+
+.profilebutton {
+  border: var(--border);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border-radius: var(--bradius);
+  width: var(--width);
+  height: var(--height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background-color: var(--bgcolor);
+  cursor: pointer;
+  padding: 0.4rem 0.9rem;
+  font-size: var(--fsize);
+  color: var(--tcolor);
+  transition: all 150ms ease-in-out;
+}
+
+.profilebutton:hover {
+  color: var(--htcolor);
+  background-color: var(--hbgcolor);
+}

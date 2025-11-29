@@ -106,23 +106,23 @@ function Profile() {
         <div className="boxes small_boxes">
           <h1>ARVELDUSINFO</h1>
           <Link to="/billing-info">
-            <ProfileButton
-              text="Lisa arveldusinfo"
-              width="150px"
-              height="40px"
-              fontSize="100%"
-            />
+            <ProfileButton text="Lisa arveldusinfo" style={{}} />
           </Link>
         </div>
       </div>
       <div id="logout_box_container">
         <Link to="/">
           <ProfileButton
+            style={{
+              "--bgcolor": "#6f0013",
+              "--tcolor": "white",
+              "--hbgcolor": "white",
+              "--htcolor": "#6f0013",
+              "--bradius": "50px",
+              "--fsize": "1.5rem",
+              "--border": "3px solid #6f0013",
+            }}
             text="Logi välja"
-            width="150px"
-            height="50px"
-            color="#6F0013"
-            fontSize="125%"
             onClickOptions={() => localStorage.removeItem("token")}
           />
         </Link>
