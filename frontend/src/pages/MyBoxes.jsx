@@ -106,6 +106,14 @@ function MyBoxes() {
 
       return newBoxes;
     });
+
+    fetch("http://localhost:5000/api/lootbox-status", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 
   return (
