@@ -149,6 +149,51 @@ app.post("/changeData", async (req, res) => {
   }
 });
 
+app.post("/api/profile/password_change", auth, async (req, res) => {
+    const userId = req.user.userId;
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+        return res.status(400).json({ error: "Palun sisesta nii vana kui ka uus salasõna." });
+    }
+
+    if (newPassword.length < 6) {
+        return res.status(400).json({ error: "Uus salasõna peab olema vähemalt 6 tähemärki pikk." });
+    }
+
+    try {
+        const userResult = await pool.query(
+            "SELECT password FROM users WHERE userid = $1",
+            [userId]
+        );
+
+        if (userResult.rows.length === 0) {
+            return res.status(404).json({ error: "Kasutajat ei leitud." });
+        }
+
+        const storedHash = userResult.rows[0].password;
+
+        const passwordMatch = await hash.comparePassword(oldPassword, storedHash);
+
+        if (!passwordMatch) {
+            return res.status(401).json({ error: "Sisestatud vana salasõna on vale." });
+        }
+
+        const newHash = await hash.hashPassword(newPassword);
+
+        await pool.query(
+            "UPDATE users SET password = $1 WHERE userid = $2",
+            [newHash, userId]
+        );
+
+        res.status(200).json({ message: "Salasõna edukalt muudetud." });
+
+    } catch (err) {
+        console.error("Viga salasõna muutmisel:", err);
+        res.status(500).json({ error: "Serveri viga salasõna muutmisel." });
+    }
+});
+
 app.post("/api/forgot-password", async (req, res) => {
   const { email } = req.body;
   const TOKEN_EXPIRY_MINUTES = 60; // Token kehtib 60 minutit
