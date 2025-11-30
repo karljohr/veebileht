@@ -312,6 +312,21 @@ app.post("/api/update-inventory", auth, async (req) => {
   }
 });
 
+// Avatud saagikastide statistika lisamine.
+app.post("/api/lootbox-status", auth, async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    await pool.query(
+      "UPDATE userstats SET openedboxes = userstats.openedboxes + 1 WHERE userid = $1",
+      [userId],
+    );
+    res.json({ success: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
 app.get("/inventories", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM userinventory");
@@ -329,6 +344,16 @@ app.get("/api/wallet", auth, async (req, res) => {
     [userId],
   );
   res.json(amount.rows[0]);
+});
+
+// Kasutaja muu statistika näitamine.
+app.get("/api/stats", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const stats = await pool.query(
+    "SELECT openedboxes, boughtdayp, spentchips FROM userstats WHERE userid = $1",
+    [userId],
+  );
+  res.json(stats.rows[0]);
 });
 
 // Žetoonide lisamine
@@ -409,6 +434,10 @@ app.post("/api/lootbox-purchase", auth, async (req, res) => {
     await client.query("DELETE FROM lootbox_transactions WHERE userid = $1", [
       userId,
     ]);
+    await client.query(
+      "UPDATE userstats SET spentchips = userstats.spentchips + $1 WHERE userid = $2",
+      [amount, userId],
+    );
     await client.query("COMMIT");
     res.status(200).json({ message: "Transaction successful" });
   } catch (e) {
@@ -441,6 +470,14 @@ app.post("/api/dayproduct-purchase", auth, async (req, res) => {
     );
     await client.query(
       "UPDATE dayproduct SET sold = true WHERE activated = true",
+    );
+    await client.query(
+      "UPDATE userstats SET spentchips = userstats.spentchips + $1 WHERE userid = $2",
+      [amount, userId],
+    );
+    await client.query(
+      "UPDATE userstats SET boughtdayp = userstats.boughtdayp + 1 WHERE userid = $1",
+      [userId],
     );
     await client.query("COMMIT");
     res.status(200).json({ message: "Transaction successful" });

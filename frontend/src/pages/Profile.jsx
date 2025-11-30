@@ -8,6 +8,9 @@ function Profile() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [wallet, setWallet] = useState("");
+  const [opened, setOpened] = useState("");
+  const [bought, setBought] = useState("");
+  const [spent, setSpent] = useState("");
   const token = localStorage.getItem("token");
 
   localStorage.setItem("wallet", wallet);
@@ -42,6 +45,21 @@ function Profile() {
         setWallet(amount.balance);
       })
       .catch((error) => console.log(error));
+
+    fetch(`http://localhost:5000/api/stats`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        "Cache-Control": "no-store",
+      },
+    })
+      .then((res) => res.json())
+      .then((stats) => {
+        setOpened(stats.openedboxes);
+        setBought(stats.boughtdayp);
+        setSpent(stats.spentchips);
+      })
+      .catch((error) => console.log(error));
   }, [token]);
 
   return (
@@ -53,7 +71,7 @@ function Profile() {
         <div id="profile_box_content">
           {/*Suure kasti vasak pool*/}
           <div className="profile_box_content_box">
-            <div className="k">
+            <div className="left">
               {/*Profiilipilt*/}
               <div id="pfp">
                 <img src="/gambler.png" alt="profile_picture" id="pfp_img" />
@@ -62,9 +80,9 @@ function Profile() {
               <div id="textbox">
                 <div id="textbox_text">
                   <p>
-                    <b>
+                    <p>
                       Nimi: {firstName} {lastName}
-                    </b>
+                    </p>
                   </p>
                   <p>Meiliaadress: {email}</p>
                 </div>
@@ -83,10 +101,11 @@ function Profile() {
           </div>
           {/*Suure kasti parem pool*/}
           <div className="profile_box_content_box">
-            <div className="k">
-              <p>Omatud žetoonid: {wallet} ❂</p>
-              {/*<p>Omatud kaste:</p>*/}
-              {/*<p>Avatud kaste:</p>*/}
+            <div className="right">
+              <b>Omatud žetoonid: {wallet} ❂</b>
+              <p>Saagikaste avatud: {opened}</p>
+              <p>Päevatooteid ostetud: {bought}</p>
+              <p>Žetoone kulutatud: {spent}</p>
             </div>
           </div>
         </div>
