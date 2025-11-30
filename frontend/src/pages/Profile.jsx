@@ -134,7 +134,7 @@ function Profile() {
               "--border": "3px solid #6f0013",
             }}
             text="Logi välja"
-            onClick={() => localStorage.removeItem("token")}
+            onClickOptions={() => localStorage.removeItem("token")}
           />
         </Link>
       </div>
