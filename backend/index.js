@@ -6,6 +6,8 @@ import pkg from "pg";
 import jwt from "jsonwebtoken";
 import hash from "./hash.js";
 import { v4 as uuidv4 } from "uuid";
+import multer from "multer";
+import fs from "fs";
 
 // Lae sisse .env failist muutujad
 dotenv.config();
@@ -23,6 +25,16 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 });
+
+// Pildi üles- ja allalaadimiseks vajalikud
+const storage = multer.diskStorage({
+  destination: "./uploads/",
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage });
+app.use("/uploads", express.static("uploads"));
 
 // GET endpoint, et kuvada kõiki kasutajaid andmebaasist
 app.get("/users", async (req, res) => {
@@ -611,6 +623,33 @@ app.post("/api/delete-box", auth, async (req, res) => {
   }
 });
 
+app.post("/api/delete-day", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const id = req.body.id;
+  if (userId === 13) {
+    const result = await pool.query(
+      "SELECT picture FROM dayproduct WHERE id=$1",
+      [id],
+    );
+    const imagePath = result.rows[0].picture;
+
+    await pool.query("DELETE FROM dayproduct WHERE id=$1", [id]);
+
+    console.log(imagePath);
+    if (imagePath) {
+      fs.unlink(`.${imagePath}`, (err) => {
+        if (err) {
+          console.error("File delete error:", err);
+        }
+      });
+    }
+
+    res.status(201).json({ message: "Day product deleted successfully" });
+  } else {
+    res.status(403).json({ message: "Unauthorized" });
+  }
+});
+
 app.get("/api/dayproduct", async (req, res) => {
   try {
     const data = await pool.query(
@@ -764,12 +803,53 @@ app.post("/api/cart/remove", auth, async (req, res) => {
   }
 });
 
+app.post("/api/add-day", auth, async (req, res) => {
+  const userId = req.user.userId;
+  const { name, description, startPrice, endPrice, picture } = req.body;
+  console.log(name, description, startPrice, endPrice, picture);
+  if (userId === 13) {
+    try {
+      await pool.query(
+        "INSERT INTO dayproduct (name, description, startprice, endprice, picture) VALUES ($1, $2, $3, $4, $5)",
+        [name, description, startPrice, endPrice, picture],
+      );
+      console.log("Successfully added a new dayproduct");
+      res.status(201).json({ message: "Prize added successfully" });
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    res.status(403).json({ message: "Unauthorized" });
+  }
+});
+
+app.post("/api/activateDay", auth, async (req, res) => {
+  const userId = req.user.userId;
+  if (userId !== 13) return console.log("Unauthorized");
+
+  try {
+    const id = req.body.id;
+    await pool.query("UPDATE dayproduct SET activated = (id = $1)", [id]);
+    console.log("Successfully activated a new dayproduct");
+  } catch (error) {
+    console.log("Error:", error);
+  }
+});
+
+app.post("/api/upload", upload.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "No file uploaded" });
+  } else {
+    res.json({ filePath: `/uploads/${req.file.filename}` });
+  }
+});
+
 // Käivitame serveri.
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   console.error(err.stack);
   res
     .status(500)

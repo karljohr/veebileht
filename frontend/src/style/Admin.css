@@ -84,6 +84,11 @@
     gap: 3rem;
 }
 
+.admin_day_form {
+    display: grid;
+    gap: 1.5rem;
+}
+
 .admin_select {
     border: 2px solid rgba(0, 0, 0, 0.25);
     background-color: white;
@@ -103,4 +108,13 @@
     grid-template-rows: 1fr auto auto auto;
     gap: 1rem;
     justify-items: center;
+}
+
+.flipped_2 {
+    transform: rotateY(180deg);
+}
+
+.transition {
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
 }

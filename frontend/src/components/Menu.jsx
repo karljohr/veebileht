@@ -22,7 +22,7 @@ const Menu = ({ navbarOpen, setNavbarOpen }) => {
       .then((res) => res.json())
       .then((data) => setIsAdmin(data))
       .catch((err) => console.log(err));
-  });
+  }, []);
 
   return (
     <div

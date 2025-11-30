@@ -93,7 +93,7 @@ function DailyProduct() {
             Müüdud
           </div>
           <img
-            src={`/${product.picture}.jpg`}
+            src={`http://localhost:5000${product.picture}`}
             alt="Product image"
             className="product-image"
           />
