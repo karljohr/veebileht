@@ -6,10 +6,15 @@ function Admin() {
   const [prizes, setPrizes] = useState([]);
   const [prizePage, setPrizePage] = useState(1);
   const [productPage, setProductPage] = useState(0);
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(0);
   const [chosenBox, setChosenBox] = useState(1);
   const [chosenPrize, setChosenPrize] = useState("");
   const [dayProducts, setDayProducts] = useState([]);
+  const [dayName, setDayName] = useState("");
+  const [dayDescription, setDayDescription] = useState("");
+  const [dayStartPrice, setDayStartPrice] = useState(0);
+  const [dayEndPrice, setDayEndPrice] = useState(0);
+  const [dayImage, setDayImage] = useState("");
   const token = localStorage.getItem("token");
 
   const fetchPrizes = async () => {
@@ -42,24 +47,6 @@ function Admin() {
     return prizes.filter((prize) => prize.boxtype === box);
   };
 
-  const cardFlip = (event, id) => {
-    if (isFlipped) {
-      switch (id) {
-        case 1:
-          addBox(event);
-          break;
-        case 2:
-        // Delete a daily product
-        case 3:
-        // Add a daily product
-        default:
-          break;
-      }
-    } else {
-      setIsFlipped(!isFlipped);
-    }
-  };
-
   const addBox = async (event) => {
     event.preventDefault();
     // Add the submited box to the database
@@ -79,7 +66,7 @@ function Admin() {
 
       await fetchPrizes();
 
-      setIsFlipped(false);
+      setIsFlipped(0);
       setChosenBox(1);
       setChosenPrize("");
     } catch (error) {
@@ -87,7 +74,45 @@ function Admin() {
     }
   };
 
-  const handleDelete = async (prize, event) => {
+  const addDayProduct = async (event) => {
+    event.preventDefault();
+
+    try {
+      console.log("Making fetch request...");
+      const response = await fetch("http://localhost:5000/api/add-day", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: dayName,
+          description: dayDescription,
+          startPrice: dayStartPrice,
+          endPrice: dayEndPrice,
+          picture: dayImage,
+        }),
+      });
+
+      if (!response.ok) console.log("Failed to add daily product");
+
+      await fetchDayProducts();
+      setIsFlipped(0);
+    } catch (error) {
+      console.error("Error in addDayProduct:", error);
+      return false;
+    }
+  };
+
+  const cardFlip = (event, id) => {
+    if (isFlipped === 0) {
+      setIsFlipped(id);
+    } else {
+      setIsFlipped(0);
+    }
+  };
+
+  const handleDeletePrize = async (prize, event) => {
     event.preventDefault();
 
     try {
@@ -103,6 +128,74 @@ function Admin() {
       if (!response.ok) console.log("Failed to delete");
 
       await fetchPrizes();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleDeleteDayProduct = async (event, id) => {
+    event.preventDefault();
+    console.log(id);
+    try {
+      await fetch("http://localhost:5000/api/delete-day", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      await fetchDayProducts();
+      setProductPage(0);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleFileUpload = async (event) => {
+    event.preventDefault();
+
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) console.log(`Upload failed: ${response.status}`);
+
+      const data = await response.json();
+      setDayImage(data.filePath);
+      console.log("File saved:", data.filePath);
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
+  };
+
+  const handleActivation = async (event, id) => {
+    event.preventDefault();
+
+    setDayProducts((prev) =>
+      prev.map((product) => ({ ...product, activated: product.id === id })),
+    );
+
+    try {
+      await fetch("http://localhost:5000/api/activateDay", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      await fetchDayProducts();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -133,23 +226,25 @@ function Admin() {
       <div className={`admin_box admin_content_box`}>
         <h4>{prizeTitles[prizePage]}</h4>
         <hr />
-        <div className={`admin_box scroll_box ${isFlipped ? "flipped" : ""}`}>
-          {!isFlipped && (
+        <div
+          className={`admin_box scroll_box ${isFlipped === 1 ? "flipped" : ""}`}
+        >
+          {isFlipped !== 1 && (
             <ul>
               {getPrizesByBox(prizePage).map((prize, index) => (
                 <li
                   className="admin_li"
                   key={index}
-                  onClick={(event) => handleDelete(prize, event)}
+                  onClick={(event) => handleDeletePrize(prize, event)}
                 >
                   {prize.prize}
                 </li>
               ))}
             </ul>
           )}
-          {isFlipped && (
+          {isFlipped === 1 && (
             <div className="flipped_sheet">
-              <form onSubmit={addBox} className="admin_box_form" id="myForm">
+              <form className="admin_box_form" id="myForm">
                 <select
                   name="boxes"
                   required
@@ -197,7 +292,9 @@ function Admin() {
             height="90%"
             text="Lisa auhind"
             fontSize="70%"
-            onClickOptions={(event) => cardFlip(event, 1)}
+            onClickOptions={(event) =>
+              isFlipped === 0 ? cardFlip(event, 1) : addBox(event)
+            }
           />
           <button
             className="admin_button"
@@ -214,18 +311,66 @@ function Admin() {
       <div className="admin_box admin_content_box">
         <h4>Päevatoode</h4>
         <hr />
-        <div className="admin_box admin_dayproduct_box">
-          <img
-            src={`/${dayProducts[productPage]?.picture}.jpg`}
-            alt={"Picture"}
-            className="admin_box_image"
-          />
-          <p>{dayProducts[productPage]?.name}</p>
-          <p>{dayProducts[productPage]?.description}</p>
-          <p>
-            {dayProducts[productPage]?.startprice}€ > {getCurrentPrice()}€ >{" "}
-            {dayProducts[productPage]?.endprice}€
-          </p>
+        <div
+          className={`admin_box transition ${isFlipped === 2 ? "flipped_2" : ""}`}
+        >
+          {isFlipped !== 2 && (
+            <div className="admin_dayproduct_box">
+              <img
+                src={`http://localhost:5000${dayProducts[productPage]?.picture}`}
+                alt={"Picture"}
+                className="admin_box_image"
+              />
+              <p>{dayProducts[productPage]?.name}</p>
+              <p>{dayProducts[productPage]?.description}</p>
+              <p>
+                {dayProducts[productPage]?.startprice}❂ {">"}{" "}
+                {getCurrentPrice()}❂ {">"} {dayProducts[productPage]?.endprice}❂
+              </p>
+            </div>
+          )}
+          {isFlipped === 2 && (
+            <div className="admin_dayproduct_box flipped_2">
+              <form className="admin_day_form" id="dayFrom">
+                <input
+                  type="text"
+                  className="admin_select"
+                  placeholder="Nimi"
+                  required
+                  onChange={(event) => setDayName(event.target.value)}
+                />
+                <input
+                  type="text"
+                  className="admin_select"
+                  placeholder="Kirjeldus"
+                  required
+                  onChange={(event) => setDayDescription(event.target.value)}
+                />
+                <input
+                  type="number"
+                  className="admin_select"
+                  placeholder="Alghind"
+                  required
+                  onChange={(event) => setDayStartPrice(event.target.value)}
+                />
+                <input
+                  type="number"
+                  className="admin_select"
+                  placeholder="Lõpphind"
+                  required
+                  onChange={(event) => setDayEndPrice(event.target.value)}
+                />
+                <input
+                  type="file"
+                  className="admin_select"
+                  placeholder="Pilt"
+                  accept=".jpg"
+                  required
+                  onChange={(event) => handleFileUpload(event)}
+                />
+              </form>
+            </div>
+          )}
         </div>
         <div className="left_right_goodnight">
           <button
@@ -245,14 +390,34 @@ function Admin() {
             fontSize="70%"
             bcolor={"rgb(111,0,19)"}
             color={"white"}
-            // onClickOptions={(event) => cardFlip(event, 2)}
+            onClickOptions={(event) =>
+              handleDeleteDayProduct(event, dayProducts[productPage].id)
+            }
           />
+
+          <ProfileButton
+            width="1.3rem"
+            height="90%"
+            fontSize="70%"
+            bcolor={
+              dayProducts[productPage]?.activated
+                ? "rgb(25,255,0)"
+                : "rgb(255,0,0)"
+            }
+            color={"white"}
+            onClickOptions={(event) =>
+              handleActivation(event, dayProducts[productPage].id)
+            }
+          />
+
           <ProfileButton
             width="6rem"
             height="90%"
             text="Lisa"
             fontSize="70%"
-            // onClickOptions={(event) => cardFlip(event, 3)}
+            onClickOptions={(event) =>
+              isFlipped === 0 ? cardFlip(event, 2) : addDayProduct(event)
+            }
           />
           <button
             className="admin_button"
