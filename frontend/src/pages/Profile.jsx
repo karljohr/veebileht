@@ -80,9 +80,7 @@ function Profile() {
               <div id="textbox">
                 <div id="textbox_text">
                   <p>
-                    <p>
-                      Nimi: {firstName} {lastName}
-                    </p>
+                    Nimi: {firstName} {lastName}
                   </p>
                   <p>Meiliaadress: {email}</p>
                 </div>
@@ -122,12 +120,6 @@ function Profile() {
             />
           </Link>
         </div>
-        <div className="boxes small_boxes">
-          <h1>ARVELDUSINFO</h1>
-          <Link to="/billing-info">
-            <ProfileButton text="Lisa arveldusinfo" style={{}} />
-          </Link>
-        </div>
       </div>
       <div id="logout_box_container">
         <Link to="/">
@@ -142,7 +134,7 @@ function Profile() {
               "--border": "3px solid #6f0013",
             }}
             text="Logi välja"
-            onClickOptions={() => localStorage.removeItem("token")}
+            onClick={() => localStorage.removeItem("token")}
           />
         </Link>
       </div>
