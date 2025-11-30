@@ -21,6 +21,7 @@ import ForgotPassword from "./pages/ForgotPassword.jsx";
 import MyBoxes from "./pages/MyBoxes.jsx";
 import ShoppingCart from "./pages/ShoppingCart.jsx";
 import Admin from "./pages/Admin.jsx";
+import CoinFlipPage from "./pages/CoinFlipPage.jsx";
 
 function App() {
   const location = useLocation();
@@ -46,6 +47,7 @@ function App() {
         <Route path="/" element={<Home setNavbarOpen={setNavbarOpen} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/catalogue" element={<Catalogue />} />
+        <Route path="/coinflip" element={<CoinFlipPage />} />
         <Route
           path="/login"
           element={
