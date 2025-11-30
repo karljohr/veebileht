@@ -288,10 +288,8 @@ function Admin() {
             {"<"}
           </button>
           <ProfileButton
-            width="10rem"
-            height="90%"
+            style={{ "--height": "35%" }}
             text="Lisa auhind"
-            fontSize="70%"
             onClickOptions={(event) =>
               isFlipped === 0 ? cardFlip(event, 1) : addBox(event)
             }
@@ -384,37 +382,41 @@ function Admin() {
             {"<"}
           </button>
           <ProfileButton
-            width="6rem"
-            height="90%"
             text="Kustuta"
-            fontSize="70%"
-            bcolor={"rgb(111,0,19)"}
-            color={"white"}
+            style={{
+              "--height": "35%",
+              "--width": "15%",
+              "--bgcolor": "rgb(111,0,19)",
+              "--tcolor": "rgb(230,230,230)",
+              "--border": "2px solid rgb(66,0,11)",
+              "--hbgcolor": "rgb(255,0,45)",
+            }}
             onClickOptions={(event) =>
               handleDeleteDayProduct(event, dayProducts[productPage].id)
             }
           />
 
           <ProfileButton
-            width="1.3rem"
-            height="90%"
-            fontSize="70%"
-            bcolor={
-              dayProducts[productPage]?.activated
+            style={{
+              "--height": "35%",
+              "--bgcolor": dayProducts[productPage]?.activated
                 ? "rgb(25,255,0)"
-                : "rgb(255,0,0)"
-            }
-            color={"white"}
+                : "rgb(255,0,0)",
+              "--border": dayProducts[productPage]?.activated
+                ? "2px solid rgb(14,158,0)"
+                : "2px solid rgb(161,0,0)",
+              "--hbgcolor": dayProducts[productPage]?.activated
+                ? "rgb(177,255,165)"
+                : "rgb(255,188,188)",
+            }}
             onClickOptions={(event) =>
               handleActivation(event, dayProducts[productPage].id)
             }
           />
 
           <ProfileButton
-            width="6rem"
-            height="90%"
             text="Lisa"
-            fontSize="70%"
+            style={{ "--height": "35%", "--width": "15%" }}
             onClickOptions={(event) =>
               isFlipped === 0 ? cardFlip(event, 2) : addDayProduct(event)
             }
