@@ -54,7 +54,11 @@ function CoinFlipPage() {
         </button>
       </div>
       <InfoOverlay
-        text="tere"
+        text="Mündivise on lihtne viis žetoone juurde teenida. Valige oma
+        soovitud panus ning kui võidate, saate tagasi kahekordse panuse. Kui
+        aga kaotate, siis kaotate oma panuse. Võiduvõimalus on 25%. Kui
+        teil saavad žetoonid otsa ning soovite juurde, siis kontakteeruda
+        haldajatega, ehk saate kokkuleppe sõlmida."
         isOpen={openId === 6}
         onClose={() => toggle(null)}
       />
