@@ -58,6 +58,17 @@ const Menu = ({ navbarOpen, setNavbarOpen }) => {
           </li>
           <li className="menu-li">
             <Link
+              to="/coinflip"
+              className="menu-button"
+              onClick={() => {
+                setNavbarOpen(false);
+              }}
+            >
+              Mündivise
+            </Link>
+          </li>
+          <li className="menu-li">
+            <Link
               to="/shopping-cart"
               className="menu-button"
               onClick={() => {
