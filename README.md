@@ -1,12 +1,12 @@
 # Veebileht: SaagiSalong
 
-Veebileht hasartmängu elementidega, kus müüakse loosikaste, mille hinnad on suvalised aga
+Veebileht hasartmängu elementidega, kus müüakse üllatuskaste, mille hinnad on suvalised aga
 kindlas vahemikus. Iga päev on poes ka uus kindel “Päevatoode”, mida on ainult 1 eksemplar
 ja mille hind langeb päeva möödumise jooksul.
 
-Veebilehe peamine müügiargument on üllatuskastid (lootbox). Kliendid saavad osta üllatuskaste,
+Veebilehe peamine müügiargument on saagikastid (lootbox). Kliendid saavad osta saagikaste,
 mille sisu nad enne kättesaamist ei tea. Samuti ei tea nad kauba kindlat hinda, vaid peavad valima
-enda jaoks sobiva hinnavahemiku, nt 1-10 eurot või 20-50 eurot. Üllatuskastist võidetud kaup võib
+enda jaoks sobiva hinnavahemiku, nt 1-10 eurot või 20-50 eurot. Saagikastist võidetud kaup võib
 olla nii füüsiline kui ka virtuaalne. Müügis on ka “Päevatoode (Item of the Day)”: see on kindel
 kaup mille sisu kliendid teavad, kuid hind on muutlik. Kui kaup müüki läheb, on hind väga kõrge,
 kuid aja jooksul see pidevalt langeb. Kaupa on ainult 1 eksemplar, ehk ainult üks inimene saab
@@ -15,7 +15,7 @@ selle osta.
 E-pood on mõeldud eelkõige hasartmängusõltuvuse kalduvusega inimestele, kes on samaagselt ka tihe
 e-poodide klient. Paljud teised e-poed on tänapäeval väga lihtsad ja igavad, kuid SaagiSalongi
 eesmärk on pakkuda lisaks ostlemisele ka elevust ning mängulisust, et shoppamine ei oleks lihtsalt
-tüütu tegevus vaid unikaalne kogemus. annab Tegemist on premium-stiilis veebilehega, kus info on
+tüütu tegevus vaid unikaalne kogemus. Tegemist on premium-stiilis veebilehega, kus info on
 arusaadav, orienteerumine mugav ning puuduvad tüütud reklaamid.
 
 ## Projekti Figma link
@@ -45,6 +45,7 @@ Projektis on hetkel olemas:
 - Ostukorvi alamleht
 - Omatud saagikastide alamleht
 - Administraatori alamleht.
+- Žetoonide juurde teenimise (mündiviske) alamleht
 
 
 Projektis on hetkel funktsionaalne:
@@ -67,13 +68,14 @@ Projektis on hetkel funktsionaalne:
 - Ostukorvi alamlehe funktsionaalsus.
 - Navigeerimine iga lehekülje vahel.
 - Administraatori alamlehe funktsionaalsus.
+- Mündiviske alamlehe funktsionaalsus.
+- Responsiivsus igal alamlehel.
 
 ## Projekti tulevik
 
 Projekti on tulevikus veel lisandumas:
 
-- Zetoonide juurde teenimise võimalus.
-- Profiili alamlehe statistika lahter.
+- Saagikastide hinna suvalisus antud vahemikus.
 
 ## Kasutatud tehnoloogiad ja raamistikud
 - React (versioon 19.2.0)
