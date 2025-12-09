@@ -6,7 +6,7 @@ ja mille hind langeb päeva möödumise jooksul.
 
 Veebilehe peamine müügiargument on saagikastid (lootbox). Kliendid saavad osta saagikaste,
 mille sisu nad enne kättesaamist ei tea. Samuti ei tea nad kauba kindlat hinda, vaid peavad valima
-enda jaoks sobiva hinnavahemiku, nt 1-10 eurot või 20-50 eurot. Saagikastist võidetud kaup võib
+enda jaoks sobiva hinnavahemiku, nt 5-10 eurot või 25-50 eurot. Saagikastist võidetud kaup võib
 olla nii füüsiline kui ka virtuaalne. Müügis on ka “Päevatoode (Item of the Day)”: see on kindel
 kaup mille sisu kliendid teavad, kuid hind on muutlik. Kui kaup müüki läheb, on hind väga kõrge,
 kuid aja jooksul see pidevalt langeb. Kaupa on ainult 1 eksemplar, ehk ainult üks inimene saab
@@ -37,8 +37,7 @@ Projektis on hetkel olemas:
 - Tootekataloogi alamleht
 - Makseleht
 - Ostu kinnituse alamleht
-- Algeline sisselogimise backend funktsionaalsus
-- Arveldusinfo lisamise alamleht
+- Sisselogimise backend funktsionaalsus
 - Salasõna muutmise alamleht
 - Kasutaja andmete muutmise alamleht
 - Unustatud salasõna asendamise avaleht
@@ -54,7 +53,7 @@ Projektis on hetkel funktsionaalne:
 - Menüü avamine igal alamlehel.
 - Navigeerimine kõikide olemasolevate alamlehtede vahel.
   - Avalehe nupud "Päevatoode" ja "Saagikastid" viivad vastavatele alamlehekülgedele.
-  - Menüü nupud "Avaleht", "Profiil", "Logi Sisse" viivad vastavatele alamlehekülgedele.
+  - Menüü nupud viivad vastavatele alamlehekülgedele.
   - Sisselogimise alamlehel "Loo kasutaja" tekstiviide viib konto loomise alamlehele.
   - "Logi Sisse", "Loo Kasutaja" ja "Maksa kohe" nupud viivad vastavale kinnituse alamlehele.
   - Sisselogimise alamlehel "Unustasid salasõna?" tekstiviide viib parooli muutmise alamlehele.
@@ -70,11 +69,6 @@ Projektis on hetkel funktsionaalne:
 - Administraatori alamlehe funktsionaalsus.
 - Mündiviske alamlehe funktsionaalsus.
 - Responsiivsus igal alamlehel.
-
-## Projekti tulevik
-
-Projekti on tulevikus veel lisandumas:
-
 - Saagikastide hinna suvalisus antud vahemikus.
 
 ## Kasutatud tehnoloogiad ja raamistikud
