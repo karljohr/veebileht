@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../style/ShoppingCart.css";
 import "../style/Catalogue.css";
-import profileButton from "../components/ProfileButton.jsx";
 import ProfileButton from "../components/ProfileButton.jsx";
 
 const API_URL = "http://localhost:5000";
@@ -29,6 +28,7 @@ function ShoppingCart() {
   const [error, setError] = useState(null);
 
   localStorage.setItem("totalMax", totalMax);
+  localStorage.setItem("totalMin", totalMin);
 
   // Ostukorvi sisu laadimne
   const fetchCartData = async () => {
@@ -162,7 +162,7 @@ function ShoppingCart() {
           <h2>Ostukorv on tühi</h2>
           <p>Lisa tooteid kataloogist, et jätkata.</p>
           <Link to="/catalogue">
-              <ProfileButton text="Mine kataloogi"/>
+            <ProfileButton text="Mine kataloogi" />
           </Link>
         </div>
       </div>

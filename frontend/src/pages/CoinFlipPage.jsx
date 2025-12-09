@@ -58,7 +58,8 @@ function CoinFlipPage() {
         soovitud panus ning kui võidate, saate tagasi kahekordse panuse. Kui
         aga kaotate, siis kaotate oma panuse. Võiduvõimalus on 25%. Kui
         teil saavad žetoonid otsa ning soovite juurde, siis kontakteeruda
-        haldajatega, ehk saate kokkuleppe sõlmida."
+        haldajatega, ehk saate kokkuleppe sõlmida. Mündiviske sooritamiseks
+        peate olema sissee logitud"
         isOpen={openId === 6}
         onClose={() => toggle(null)}
       />
@@ -71,7 +72,11 @@ function CoinFlipPage() {
             onChange={(e) => setAmount(Number(e.target.value))}
           >
             {BETS.map((amount) => (
-              <option key={amount} value={amount} disabled={wallet < amount}>
+              <option
+                key={amount}
+                value={amount}
+                disabled={wallet < amount || !token}
+              >
                 {amount} ❂
               </option>
             ))}
