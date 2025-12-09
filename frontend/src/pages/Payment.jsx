@@ -6,6 +6,7 @@ import { clearCartExternal } from "./ShoppingCart.jsx";
 function Payment() {
   const [paymentMethod, setPaymentMethod] = useState("chips");
   const totalMax = Number(localStorage.getItem("totalMax"));
+  const totalMin = Number(localStorage.getItem("totalMin"));
   const wallet = Number(localStorage.getItem("wallet"));
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -28,7 +29,10 @@ function Payment() {
     try {
       if (paymentMethod === "chips") {
         if (wallet < totalMax) return;
-        await lootboxPurchase(totalMax, "Lootbox purchase");
+        await lootboxPurchase(
+          Math.floor(Math.random() * (totalMax - totalMin + 1)) + totalMin,
+          "Lootbox purchase",
+        );
         navigate("/payment/confirmation");
         await clearCartExternal();
       } else if (paymentMethod === "card") {

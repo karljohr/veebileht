@@ -5,6 +5,7 @@ import ProfileButton from "./ProfileButton.jsx";
 function CoinFlip({ onResult }) {
   const [result, setResult] = useState("");
   const wallet = Number(localStorage.getItem("wallet"));
+  const token = localStorage.getItem("token");
 
   const coinToss = () => {
     const outcome = Math.random() < 0.75 ? "heads" : "tails";
@@ -37,7 +38,7 @@ function CoinFlip({ onResult }) {
           "--border": "3px solid black",
         }}
         onClickOptions={coinToss}
-        disabled={wallet < 5}
+        disabled={wallet < 5 || !token}
       ></ProfileButton>
     </div>
   );
