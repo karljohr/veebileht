@@ -59,6 +59,10 @@ function DailyProduct() {
       console.error(e);
       alert("Purchase failed");
     }
+
+    if (!token) {
+      alert("Ostukorvi lisamiseks palun logi sisse.");
+    }
   };
 
   return (

@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 import "../style/Lootbox.css";
 
-const Lootbox = ({ image, nimi, hind, prizes, reverse, imgClass, productID, onAddToCart }) => {
+const Lootbox = ({
+  image,
+  nimi,
+  hind,
+  prizes,
+  reverse,
+  imgClass,
+  productID,
+  onAddToCart,
+}) => {
+  const token = localStorage.getItem("token");
   const [isFlipped, setFlipped] = useState(false);
   const handleFlip = () => {
     setFlipped(!isFlipped);
@@ -50,7 +60,11 @@ const Lootbox = ({ image, nimi, hind, prizes, reverse, imgClass, productID, onAd
           </div>
         </div>
       </div>
-      {showToast && <div className="toast">Lisatud ostukorvi</div>}
+      {showToast && (
+        <div className="toast" hidden={!token}>
+          Lisatud ostukorvi
+        </div>
+      )}
     </div>
   );
 };
